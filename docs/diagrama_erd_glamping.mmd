@@ -1,0 +1,45 @@
+erDiagram
+
+  ROL {
+    INTEGER id PK
+    STRING nombre
+    JSON permisos
+  }
+  USUARIO {
+    INTEGER id PK
+    STRING nombre
+    STRING correo_electronico
+    STRING contrasena
+    BOOLEAN estado_activo
+    INTEGER rol_id FK
+  }
+  CLIENTE {
+    INTEGER id PK
+    STRING nombre
+    STRING correo_electronico
+    STRING telefono
+  }
+  HABITACION {
+    INTEGER id PK
+    STRING nombre
+    STRING tipo
+    INTEGER capacidad
+    ENUM estado
+    STRING descripcion
+  }
+  RESERVA {
+    INTEGER id PK
+    INTEGER cliente_id FK
+    INTEGER habitacion_id FK
+    DATE fecha_inicio
+    DATE fecha_fin
+    ENUM estado
+    DECIMAL precio_total
+  }
+
+  ROL ||--o{ USUARIO : tiene
+  USUARIO }o--|| ROL : pertenece_a
+  CLIENTE ||--o{ RESERVA : "realiza"
+  RESERVA }o--|| CLIENTE : "pertenece_a"
+  HABITACION ||--o{ RESERVA : "es_usada_en"
+  RESERVA }o--|| HABITACION : "pertenece_a"

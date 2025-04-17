@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Frijolitos Dormilones | El arte de soñar envuelto en naturaleza</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --azul-frijolitos: #3686da;
+      --verde-aceptar: #39b16a;
+      --amarillo-aviso: #fff3cd;
+      --rojo-error: #e17373;
+      --gris-suave: #f6f9fa;
+    }
+
+    body {
+      font-family: 'Segoe UI', 'Arial', sans-serif;
+      background: var(--gris-suave);
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .container {
+      margin-top: 44px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .form-card {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 8px 36px rgba(54,134,218,0.11),
+                  0 1.5px 3px rgba(60,60,60,0.15);
+      padding: 38px 32px 30px 32px;
+      width: 100%;
+      max-width: 420px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+      animation: fadeIn 0.9s;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px);}
+      to   { opacity: 1; transform: translateY(0);}
+    }
+    .form-title {
+      text-align: center;
+      font-size: 1.5em;
+      color: var(--azul-frijolitos);
+      margin-bottom: 18px;
+      letter-spacing: 1px;
+    }
+    label {
+      font-weight: 450;
+      display: block;
+      margin-bottom: 6px;
+      color: #28323b;
+      letter-spacing: 0.6px;
+    }
+    .input-group {
+      margin-bottom: 18px;
+      display: flex;
+      flex-direction: column;
+      gap:2px;
+    }
+    input, select {
+      padding: 10px 12px;
+      border: 1.5px solid #d5e4fd;
+      border-radius: 7px;
+      font-size: 1em;
+      transition: border-color 0.2s;
+      background: #fbfcfe;
+      outline: none;
+    }
+    input:focus, select:focus {
+      border-color: var(--azul-frijolitos);
+      background: #eef5fe;
+    }
+    button {
+      margin-top: 8px;
+      padding: 0.8em 0;
+      background: linear-gradient(90deg, #43a6da, #3686da 90%);
+      color: #fff;
+      border-radius: 8px;
+      border: none;
+      font-size: 1.08em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.18s, transform 0.1s;
+      box-shadow: 0 3px 8px rgba(54,134,218,0.10);
+      letter-spacing: 1px;
+    }
+    button:active {
+      background: #3686da;
+      transform: scale(0.97);
+    }
+    .aviso {
+      display: none;
+      margin-top: 16px;
+      padding: 15px 18px;
+      border-radius: 10px;
+      font-size: 1.08em;
+      line-height: 1.56;
+      box-shadow: 0 1.5px 7px rgba(54,134,218,0.04);
+      position: relative;
+    }
+    .aviso.exito {
+      display: block;
+      border-left: 7px solid var(--verde-aceptar);
+      background: #e7f8ef;
+      color: #19553d;
+    }
+    .aviso.aviso {
+      display: block;
+      border-left: 7px solid #e3c072;
+      background: var(--amarillo-aviso);
+      color: #8c7307;
+    }
+    .aviso.error {
+      display: block;
+      border-left: 7px solid var(--rojo-error);
+      background: #fbeaea;
+      color: #a83c3c;
+    }
+
+    .aviso ul {
+      margin: 12px 0 0 25px;
+      padding-left: 0;
+    }
+    .icono {
+      font-size: 1.3em;
+      margin-right: 6px;
+      vertical-align: top;
+    }
+    @media (max-width: 550px) {
+      .form-card { padding: 19px 5vw 16px 5vw; }
+    }
+    
+    /* Estilos para la sección de Experiencia */
+    #experiencia-frijolitos {
+      padding: 60px 20px;
+      background-color: #f9f9f9;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .seccion-titulo {
+      text-align: center;
+      font-family: 'Playfair Display', serif;
+      color: #2a4a29;
+      font-size: 2.2em;
+      margin-bottom: 40px;
+      position: relative;
+    }
+    
+    .seccion-titulo::after {
+      content: "";
+      display: block;
+      width: 80px;
+      height: 3px;
+      background: var(--azul-frijolitos);
+      margin: 15px auto 0;
+    }
+    
+    .experiencia-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+    
+    .experiencia-bloque {
+      background: white;
+      border-radius: 12px;
+      padding: 30px 25px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+    
+    .experiencia-bloque:hover {
+      transform: translateY(-5px);
+    }
+    
+    .experiencia-icono {
+      margin: 0 auto 20px;
+      width: 70px;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f6f9fa;
+      border-radius: 50%;
+    }
+    
+    .experiencia-bloque h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      color: #2a4a29;
+      margin-bottom: 15px;
+      font-size: 1.3em;
+    }
+    
+    .experiencia-bloque p {
+      color: #555;
+      line-height: 1.6;
+      font-size: 1em;
+    }
+    
+    @media (max-width: 768px) {
+      .experiencia-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .seccion-titulo {
+        font-size: 1.8em;
+      }
+    }
+    
+    /* Estilos para la sección de Las Lunas */
+    #lunas {
+      padding: 60px 20px;
+      background-color: #fff;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .lunas-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+    
+    .luna-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+    }
+    
+    .luna-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+    }
+    
+    .luna-img-wrap {
+      position: relative;
+      height: 220px;
+      overflow: hidden;
+    }
+    
+    .luna-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    
+    .luna-card:hover .luna-img {
+      transform: scale(1.05);
+    }
+    
+    .badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.85em;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .badge.disponible {
+      background-color: var(--verde-aceptar);
+      color: white;
+    }
+    
+    .badge.promo {
+      background-color: #e3c072;
+      color: #5a4500;
+    }
+    
+    .luna-contenido {
+      padding: 20px 25px 25px;
+    }
+    
+    .luna-contenido h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      color: #2a4a29;
+      margin-bottom: 10px;
+      font-size: 1.4em;
+    }
+    
+    .luna-contenido p {
+      color: #555;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    
+    .btn-vermas {
+      display: inline-block;
+      padding: 8px 20px;
+      background: var(--azul-frijolitos);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .btn-vermas:hover {
+      background: #2a75c7;
+    }
+    
+    @media (max-width: 768px) {
+      .lunas-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    /* Estilos para el modal de Luna */
+    .modal-luna {
+      position: fixed;
+      left: 0; top: 0; right: 0; bottom: 0;
+      background: rgba(44,82,193,0.11);
+      backdrop-filter: blur(1.5px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .modal-luna .modal-content {
+      background: #fff;
+      padding: 36px 24px 24px 24px;
+      border-radius: 18px;
+      max-width: 410px;
+      width: 93vw;
+      box-shadow: 0 8px 30px rgba(41,80,170,0.22);
+      position: relative;
+      animation: fadeIn 0.34s;
+    }
+    .modal-cerrar {
+      position: absolute;
+      right: 12px; top: 10px;
+      font-size: 2.1em;
+      cursor: pointer;
+      color: #3686da;
+      font-weight: 700;
+      transition: color 0.18s;
+      user-select: none;
+      line-height: 1;
+    }
+    .modal-cerrar:hover { 
+      color: #265890;
+    }
+    @media (max-width: 520px) {
+      .modal-luna .modal-content { 
+        padding: 16px 4vw 16px 4vw; 
+      }
+    }
+  </style>
+</head>
+<body>
+   <!-- Formulario de Login -->
+   <form id="loginForm" class="form-card" autocomplete="off">
+    <div class="form-title">Iniciar sesión</div>
+    <div class="input-group">
+      <label for="loginEmail">Correo electrónico</label>
+      <input type="email" id="loginEmail" required />
+    </div>
+    <div class="input-group">
+      <label for="loginPassword">Contraseña</label>
+      <input type="password" id="loginPassword" required />
+    </div>
+    <button type="submit">Entrar</button>
+    <div id="loginMensaje" class="aviso"></div>
+  </form>
+
+  <!-- Formulario de Registro -->
+  <form id="registroForm" class="form-card" autocomplete="off">
+    <div class="form-title">Registrarse</div>
+    <div class="input-group">
+      <label for="registroNombre">Nombre</label>
+      <input type="text" id="registroNombre" required />
+    </div>
+    <div class="input-group">
+      <label for="registroCorreo">Correo electrónico</label>
+      <input type="email" id="registroCorreo" required />
+    </div>
+    <div class="input-group">
+      <label for="registroContrasena">Contraseña</label>
+      <input type="password" id="registroContrasena" required />
+    </div>
+    <button type="submit">Crear cuenta</button>
+    <div id="registroMensaje" class="aviso"></div>
+  </form>
+  <header id="hero">
+    <div class="hero-overlay">
+      <h1 class="eslogan">El arte de soñar envuelto en naturaleza</h1>
+      <a href="#reservas" class="btn-reservar">Reservar ahora</a>
+    </div>
+  </header>
+  
+  <!-- Sección Experiencia Frijolitos Dormilones -->
+  <section id="experiencia-frijolitos">
+    <h2 class="seccion-titulo">La experiencia Frijolitos Dormilones</h2>
+    <div class="experiencia-grid">
+      <div class="experiencia-bloque">
+        <div class="experiencia-icono">
+          <!-- Icono hoja (inmersión) -->
+          <svg width="48" height="48" fill="none" viewBox="0 0 48 48"><ellipse cx="24" cy="24" rx="18" ry="25" stroke="#2a4a29" stroke-width="2"/><path d="M24,5 Q29,21 18,43" stroke="#2a4a29" stroke-width="1.5" fill="none"/></svg>
+        </div>
+        <h3>Inmersión en la naturaleza</h3>
+        <p>Despierta rodeado de bosque, aire puro y sonidos naturales. Cada cápsula es un mirador privilegiado al paisaje.</p>
+      </div>
+      <div class="experiencia-bloque">
+        <div class="experiencia-icono">
+          <!-- Icono de esfera/lujo (circle with glow) -->
+          <svg width="48" height="48" fill="none" viewBox="0 0 48 48"><circle cx="24" cy="24" r="18" stroke="#dbc178" stroke-width="2"/><circle cx="24" cy="24" r="11" stroke="#dbc178" stroke-width="1.5" fill="none" opacity="0.5"/></svg>
+        </div>
+        <h3>Lujo suspendido</h3>
+        <p>Vive una noche única en nuestras esferas flotantes. Diseño elegante con máxima comodidad y vistas incomparables.</p>
+      </div>
+      <div class="experiencia-bloque">
+        <div class="experiencia-icono">
+          <!-- Icono de reciclaje/sostenibilidad -->
+          <svg width="48" height="48" fill="none" viewBox="0 0 48 48">
+            <path d="M19 8 L24 3 L29 8" stroke="#489554" stroke-width="2" fill="none"/>
+            <path d="M7 24 A16 16 0 0 1 32 8" stroke="#489554" stroke-width="2" fill="none"/>
+            <path d="M29 40 L24 45 L19 40" stroke="#489554" stroke-width="2" fill="none"/>
+            <path d="M41 24 A16 16 0 0 1 16 40" stroke="#489554" stroke-width="2" fill="none"/>
+          </svg>
+        </div>
+        <h3>Sostenibilidad</h3>
+        <p>Cada detalle minimiza el impacto ambiental: materiales eco, energía renovable y un compromiso real con la naturaleza.</p>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Sección Las Lunas (Galería de Alojamientos) -->
+  <section id="lunas">
+    <h2 class="seccion-titulo">Nuestras Lunas</h2>
+    <div class="lunas-grid">
+      <!-- Luna 1 -->
+      <div class="luna-card disponible">
+        <div class="luna-img-wrap">
+          <!-- Placeholder de imagen -->
+          <img src="https://placehold.co/600x400/3686da/ffffff?text=Luna+Moon" alt="Luna Moon" class="luna-img">
+          <span class="badge disponible">Disponible</span>
+        </div>
+        <div class="luna-contenido">
+          <h3>Moon</h3>
+          <p>Ideal para parejas. Cama king, jacuzzi privado y vista panorámica al bosque.</p>
+          <button class="btn-vermas" data-luna="Moon">Ver más</button>
+        </div>
+      </div>
+
+      <!-- Luna 2 -->
+      <div class="luna-card promo">
+        <div class="luna-img-wrap">
+          <img src="https://placehold.co/600x400/39b16a/ffffff?text=Luna+Sky" alt="Luna Sky" class="luna-img">
+          <span class="badge promo">Promoción</span>
+        </div>
+        <div class="luna-contenido">
+          <h3>Sky</h3>
+          <p>Suspensión más alta, malla catamarán y cine bajo estrellas. Sujeto a promo limitada.</p>
+          <button class="btn-vermas" data-luna="Sky">Ver más</button>
+        </div>
+      </div>
+
+      <!-- Luna 3 -->
+      <div class="luna-card">
+        <div class="luna-img-wrap">
+          <img src="https://placehold.co/600x400/e3c072/ffffff?text=Luna+Forest" alt="Luna Forest" class="luna-img">
+          <!-- Sin indicador -->
+        </div>
+        <div class="luna-contenido">
+          <h3>Forest</h3>
+          <p>Rodeada de vegetación nativa. Avistamiento de aves y baño en medio del bosque.</p>
+          <button class="btn-vermas" data-luna="Forest">Ver más</button>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <div class="container" id="reservas">
+    <form id="form-reserva" class="form-card" autocomplete="off">
+      <div class="form-title">Reserva tu Frijolito Dormilón</div>
+      <div class="input-group">
+        <label for="cliente_id">Cliente ID</label>
+        <input id="cliente_id" type="number" name="cliente_id" required placeholder="Ej: 12"/>
+      </div>
+      <div class="input-group">
+        <label for="habitacion_id">Habitación ID</label>
+        <input id="habitacion_id" type="number" name="habitacion_id" required placeholder="Ej: 2"/>
+      </div>
+      <div class="input-group">
+        <label for="fecha_inicio">Fecha inicio</label>
+        <input id="fecha_inicio" type="date" name="fecha_inicio" required />
+      </div>
+      <div class="input-group">
+        <label for="fecha_fin">Fecha fin</label>
+        <input id="fecha_fin" type="date" name="fecha_fin" required />
+      </div>
+      <div class="input-group">
+        <label for="precio_total">Precio total</label>
+        <input id="precio_total" type="number" name="precio_total" required placeholder="Ej: 180000"/>
+      </div>
+      <div class="input-group">
+        <label for="estado">Estado</label>
+        <select id="estado" name="estado" required>
+          <option value="Activa">Activa</option>
+          <option value="Cancelada">Cancelada</option>
+        </select>
+      </div>
+      <button type="submit">Reservar</button>
+      <!-- Aquí aparecerán avisos de sugerencias -->
+      <div id="aviso-sugerencias" class="aviso"></div>
+    </form>
+  </div>
+
+  <!-- Botón de reservar flotante para Móvil -->
+  <a href="#reservas" class="btn-flotante">Reservar</a>
+
+  <!-- Modal para detalles de Luna -->
+  <div id="modal-luna" class="modal-luna" style="display:none;">
+    <div class="modal-content">
+      <span id="modal-cerrar" class="modal-cerrar" title="Cerrar">&times;</span>
+      <div id="modal-luna-body">
+        <!-- Info dinámica aquí -->
+      </div>
+    </div>
+  </div>
+
+  <footer id="footer">
+    <div class="footer-content">
+      <p>© 2023 Frijolitos Dormilones - Todos los derechos reservados</p>
+    </div>
+  </footer>
+
+  <script>
+    const form = document.getElementById('form-reserva');
+    const aviso = document.getElementById('aviso-sugerencias');
+    const modal = document.getElementById('modal-luna');
+    const modalBody = document.getElementById('modal-luna-body');
+    const modalCerrar = document.getElementById('modal-cerrar');
+    
+    // Manejador para botones "Ver más" de las lunas
+    document.querySelectorAll('.btn-vermas').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const lunaId = this.getAttribute('data-luna');
+        mostrarDetalleLuna(lunaId);
+      });
+    });
+    
+    // Función para mostrar el modal con detalles de la luna
+    function mostrarDetalleLuna(lunaId) {
+      // Contenido dinámico según la luna seleccionada
+      const contenidoLunas = {
+        'Moon': `
+          <h2>Luna Moon</h2>
+          <img src="https://placehold.co/600x400/3686da/ffffff?text=Luna+Moon" alt="Luna Moon" style="width:100%; border-radius:8px; margin:15px 0;">
+          <p>La Luna Moon es ideal para parejas que buscan una experiencia romántica en medio de la naturaleza. Cuenta con:</p>
+          <ul>
+            <li>Cama king size con vista panorámica</li>
+            <li>Jacuzzi privado bajo las estrellas</li>
+            <li>Desayuno gourmet incluido</li>
+            <li>Terraza privada</li>
+          </ul>
+          <p><strong>Precio:</strong> $180.000 por noche</p>
+        `,
+        'Sky': `
+          <h2>Luna Sky</h2>
+          <img src="https://placehold.co/600x400/39b16a/ffffff?text=Luna+Sky" alt="Luna Sky" style="width:100%; border-radius:8px; margin:15px 0;">
+          <p>La Luna Sky ofrece la experiencia más elevada de nuestro complejo:</p>
+          <ul>
+            <li>Suspensión a 8 metros de altura</li>
+            <li>Malla catamarán para contemplar las estrellas</li>
+            <li>Sistema de cine bajo las estrellas</li>
+            <li>Servicio de cena romántica opcional</li>
+          </ul>
+          <p><strong>Promoción actual:</strong> 15% de descuento en reservas de 2 noches</p>
+        `,
+        'Forest': `
+          <h2>Luna Forest</h2>
+          <img src="https://placehold.co/600x400/e3c072/ffffff?text=Luna+Forest" alt="Luna Forest" style="width:100%; border-radius:8px; margin:15px 0;">
+          <p>La Luna Forest te sumerge en la experiencia más natural:</p>
+          <ul>
+            <li>Rodeada de vegetación nativa</li>
+            <li>Punto privilegiado para avistamiento de aves</li>
+            <li>Baño al aire libre con total privacidad</li>
+            <li>Sendero privado hacia el río</li>
+          </ul>
+          <p><strong>Precio:</strong> $160.000 por noche</p>
+        `
+      };
+      
+      // Actualizar contenido del modal
+      modalBody.innerHTML = contenidoLunas[lunaId] || `<p>Información no disponible para Luna ${lunaId}</p>`;
+      
+      // Mostrar modal
+      modal.style.display = 'flex';
+    }
+    
+    // Cerrar modal al hacer clic en X
+    modalCerrar.addEventListener('click', function() {
+      modal.style.display = 'none';
+    });
+    
+    // Cerrar modal al hacer clic fuera del contenido
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
+    
+    function limpiarAviso() {
+      aviso.className = 'aviso';
+      aviso.style.display = 'none';
+      aviso.innerHTML = "";
+    }
+    
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      limpiarAviso();
+
+      const datos = Object.fromEntries(new FormData(form).entries());
+      const urlBackend = 'http://localhost:3000/api/reservas';
+      
+      try {
+        const resp = await fetch(urlBackend, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(datos)
+        });
+        const data = await resp.json();
+
+        if(resp.status === 201) {
+          aviso.innerHTML = `<span class="icono">✔️</span>¡Reserva creada exitosamente!`;
+          aviso.className = "aviso exito";
+          form.reset();
+        } else if(resp.status === 409 && data.detalle && data.detalle.sugerencias_libres) {
+          let html = `<span class="icono">💡</span><b>${data.error}</b><br>Alternativas de fechas disponibles: <ul>`;
+          data.detalle.sugerencias_libres.forEach(sug => {
+            html += `<li>${sug.mensaje}</li>`;
+          });
+          html += '</ul>';
+          aviso.innerHTML = html;
+          aviso.className = "aviso aviso";
+        } else if(data.error) {
+          aviso.innerHTML = `<span class="icono">❌</span>${data.error}`;
+          aviso.className = "aviso error";
+        }
+        aviso.style.display = "block";
+      } catch (err) {
+        aviso.innerHTML = `<span class="icono">❌</span>Error al conectar con el backend.`;
+        aviso.className = "aviso error";
+        aviso.style.display = "block";
+      }
+    });
+    // Login
+document.getElementById('loginForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const email = document.getElementById('loginEmail').value;
+  const password = document.getElementById('loginPassword').value;
+
+  const respuesta = await fetch('http://localhost:3000/api/autenticacion/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password })
+  });
+
+  const datos = await respuesta.json();
+  const mensaje = document.getElementById('loginMensaje');
+  if (respuesta.ok) {
+    mensaje.textContent = '¡Login exitoso!';
+    mensaje.className = 'aviso exito';
+  } else {
+    mensaje.textContent = datos.error || 'Error al iniciar sesión';
+    mensaje.className = 'aviso error';
+  }
+  mensaje.style.display = 'block';
+});
+
+// Registro
+document.getElementById('registroForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const nombre = document.getElementById('registroNombre').value;
+  const correo_electronico = document.getElementById('registroCorreo').value;
+  const contrasena = document.getElementById('registroContrasena').value;
+
+  const respuesta = await fetch('http://localhost:3000/api/autenticacion/registro', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ nombre, correo_electronico, contrasena })
+  });
+
+  const datos = await respuesta.json();
+  const mensaje = document.getElementById('registroMensaje');
+  if (respuesta.ok) {
+    mensaje.textContent = '¡Registro exitoso!';
+    mensaje.className = 'aviso exito';
+  } else {
+    mensaje.textContent = datos.error || 'Error al registrarse';
+    mensaje.className = 'aviso error';
+  }
+  mensaje.style.display = 'block';
+});
+  </script>
+</body>
+</html>
