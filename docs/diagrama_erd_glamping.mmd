@@ -36,6 +36,14 @@ erDiagram
     ENUM estado
     DECIMAL precio_total
   }
+  REGISTROLOGIN {
+    INTEGER id PK
+    INTEGER usuario_id FK
+    DATETIME fecha_hora
+    STRING tipo
+    STRING ip
+    STRING user_agent
+  }
 
   ROL ||--o{ USUARIO : tiene
   USUARIO }o--|| ROL : pertenece_a
@@ -43,3 +51,5 @@ erDiagram
   RESERVA }o--|| CLIENTE : "pertenece_a"
   HABITACION ||--o{ RESERVA : "es_usada_en"
   RESERVA }o--|| HABITACION : "pertenece_a"
+  USUARIO ||--o{ REGISTROLOGIN : "registra"
+  REGISTROLOGIN }o--|| USUARIO : "pertenece_a"

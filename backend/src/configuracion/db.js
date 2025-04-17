@@ -6,7 +6,9 @@
 const { Sequelize } = require('sequelize');
 
 // 2. Cargo las variables de entorno desde el archivo .env para mayor seguridad y flexibilidad
-require('dotenv').config();
+console.log('Ruta .env:', __dirname + '/../.env');
+require('dotenv').config({ path: __dirname + '/../.env' });
+console.log('DB_NOMBRE:', process.env.DB_NOMBRE);
 
 // 3. Variables que contienen los datos de mi base de datos MySQL, tomados del archivo .env
 const nombreBaseDatos = process.env.DB_NOMBRE || 'glamping';

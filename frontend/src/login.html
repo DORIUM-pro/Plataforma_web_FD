@@ -105,8 +105,12 @@
       if (respuesta.ok) {
         mensaje.textContent = '¡Login exitoso!';
         mensaje.className = 'aviso exito';
-        // Aquí puedes redirigir a otra página si lo deseas
-        // window.location.href = "index.html";
+        // Guarda el correo en localStorage
+        localStorage.setItem('usuarioCorreo', email);
+        // Redirige a la página principal después de 1 segundo
+        setTimeout(() => {
+          window.location.href = "index.html";
+        }, 1000);
       } else {
         mensaje.textContent = datos.error || 'Error al iniciar sesión';
         mensaje.className = 'aviso error';

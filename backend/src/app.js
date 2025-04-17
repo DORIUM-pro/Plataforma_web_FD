@@ -1,10 +1,17 @@
+require('dotenv').config({ path: __dirname + '/../.env' });
+
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const puerto = process.env.PORT || 3000;
 
 // Middlewares para parseo de JSON y URL-encoded (para recibir cuerpos de POST/PUT)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(cors());
+
+
 
 // Rutas principales
 app.use('/api/usuarios', require('./rutas/usuarios'));

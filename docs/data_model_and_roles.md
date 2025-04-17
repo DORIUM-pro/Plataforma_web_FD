@@ -38,6 +38,14 @@
 - estado (Activa, Cancelada, Finalizada)
 - precio_total
 
+### RegistroLogin (Bitácora de accesos)
+- id (PK)
+- usuario_id (FK)
+- fecha_hora
+- tipo (login, logout, registro)
+- ip
+- user_agent
+
 ---
 
 ## Relaciones clave
@@ -45,6 +53,18 @@
 - **Empleado** tiene un **Rol**
 - **Reserva** asocia un **Cliente** y una **Habitación**
 - **Habitación** puede tener un estado gestionado por **Empleados** (según rol)
+- **RegistroLogin** asocia un **Usuario** con eventos de acceso
+
+---
+
+## Funcionalidades implementadas recientemente
+
+- **Autenticación y registro de usuarios** con hash seguro de contraseñas (bcrypt).
+- **Bitácora de accesos:** cada registro, login o logout queda guardado en la tabla `RegistroLogin` con fecha, IP y user agent.
+- **Envío de correos automáticos** al registrar un usuario, usando Nodemailer y variables de entorno seguras.
+- **Gestión de variables de entorno** con dotenv para credenciales y configuración sensible.
+- **Validación de datos** en endpoints de autenticación y registro.
+- **Control de errores y mensajes claros** en la API y en la terminal del backend.
 
 ---
 
@@ -68,6 +88,10 @@
 
 ---
 
-Esto sienta la base para modelar la aplicación, permisos y flujos de trabajo administrativos.
+### Notas adicionales
 
-¿Quieres avanzar ahora con el diseño de las rutas de API, la base de datos, o la estructura de carpetas del backend (por ejemplo, en Node/Express, Django, etc.)? ¡Dime tu stack preferido y el próximo paso!
+- El modelo de bitácora permite auditar accesos y acciones de usuarios.
+- El envío de correos está protegido mediante variables de entorno y contraseña de aplicación de Gmail.
+- El sistema es extensible para agregar más roles, permisos y funcionalidades administrativas.
+
+---

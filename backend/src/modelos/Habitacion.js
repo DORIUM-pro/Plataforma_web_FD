@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../../configuracion/baseDeDatos');
+const sequelize = require('../configuracion/db');
 
 /**
  * Modelo de Habitación/Alojamiento para la plataforma Glamping.

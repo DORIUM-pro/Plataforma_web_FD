@@ -1,10 +1,10 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../configuracion/db');
 
-const LoginLog = sequelize.define('LoginLog', {
+const RegistroLogin = sequelize.define('RegistroLogin', {
   usuario_id: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
   },
   exito: {
     type: DataTypes.BOOLEAN,
@@ -18,8 +18,8 @@ const LoginLog = sequelize.define('LoginLog', {
     type: DataTypes.STRING,
   }
 }, {
-  tableName: 'login_logs',
-  timestamps: false,
+  tableName: 'registro_login',
+  timestamps: false
 });
 
-module.exports = LoginLog;
+module.exports = RegistroLogin;
