@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Registrarse | Frijolitos Dormilones</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      background: #f6f9fa;
+      font-family: 'Montserrat', sans-serif;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .form-card {
+      background: #fff;
+      padding: 32px 24px;
+      border-radius: 10px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      margin-top: 60px;
+      width: 100%;
+      max-width: 350px;
+    }
+    .form-title {
+      font-size: 1.5em;
+      margin-bottom: 18px;
+      color: #3686da;
+      text-align: center;
+    }
+    .input-group {
+      margin-bottom: 16px;
+    }
+    .input-group label {
+      display: block;
+      margin-bottom: 6px;
+      color: #333;
+    }
+    .input-group input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #bbb;
+      border-radius: 5px;
+      font-size: 1em;
+    }
+    button[type="submit"] {
+      width: 100%;
+      background: #3686da;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 1em;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .aviso {
+      margin-top: 12px;
+      text-align: center;
+      font-size: 0.98em;
+    }
+    .aviso.exito { color: #39b16a; }
+    .aviso.error { color: #e17373; }
+    .volver {
+      display: block;
+      margin: 18px auto 0 auto;
+      text-align: center;
+      color: #3686da;
+      text-decoration: none;
+      font-size: 0.98em;
+    }
+  </style>
+</head>
+<body>
+  <form id="registroForm" class="form-card" autocomplete="off">
+    <div class="form-title">Registrarse</div>
+    <div class="input-group">
+      <label for="registroNombre">Nombre</label>
+      <input type="text" id="registroNombre" required />
+    </div>
+    <div class="input-group">
+      <label for="registroCorreo">Correo electrónico</label>
+      <input type="email" id="registroCorreo" required />
+    </div>
+    <div class="input-group">
+      <label for="registroContrasena">Contraseña</label>
+      <input type="password" id="registroContrasena" required />
+    </div>
+    <button type="submit">Crear cuenta</button>
+    <div id="registroMensaje" class="aviso"></div>
+    <a href="index.html" class="volver">Volver al inicio</a>
+  </form>
+  <script>
+    document.getElementById('registroForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const nombre = document.getElementById('registroNombre').value;
+      const correo_electronico = document.getElementById('registroCorreo').value;
+      const contrasena = document.getElementById('registroContrasena').value;
+
+      const respuesta = await fetch('http://localhost:3000/api/autenticacion/registro', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nombre, correo_electronico, contrasena })
+      });
+
+      const datos = await respuesta.json();
+      const mensaje = document.getElementById('registroMensaje');
+      if (respuesta.ok) {
+        mensaje.textContent = '¡Registro exitoso!';
+        mensaje.className = 'aviso exito';
+      } else {
+        mensaje.textContent = datos.error || 'Error al registrarse';
+        mensaje.className = 'aviso error';
+      }
+      mensaje.style.display = 'block';
+    });
+  </script>
+</body>
+</html>

@@ -141,3 +141,13 @@
 - Crear un pipeline de CI/CD básico utilizando GitHub Actions para automatizar pruebas y despliegues.
 - Diseñar y desarrollar la interfaz de usuario del frontend, priorizando la experiencia del cliente y la integración con la API.
 - Documentar el flujo de autenticación y autorización en la API, incluyendo ejemplos de solicitudes y respuestas.
+
+## [Fecha: 16/04/2025] - Sincronización y subida inicial a GitHub
+
+- Se realizó la inicialización del repositorio local con `git init`.
+- Se resolvieron conflictos entre el repositorio local y el remoto (README, .gitignore, LICENSE).
+- Se eliminaron y restauraron archivos/carpeta (`backend/docs`) para completar la sincronización.
+- Se agregó correctamente el archivo `.gitignore` para excluir `node_modules` y otros archivos temporales.
+- Se subió todo el proyecto al repositorio remoto en GitHub.
+- Se verificó la estructura del proyecto y la documentación principal (`README.md`).
+- Se dejó lista la base para continuar con el desarrollo colaborativo.

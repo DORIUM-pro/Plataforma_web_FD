@@ -377,39 +377,13 @@
   </style>
 </head>
 <body>
-   <!-- Formulario de Login -->
-   <form id="loginForm" class="form-card" autocomplete="off">
-    <div class="form-title">Iniciar sesión</div>
-    <div class="input-group">
-      <label for="loginEmail">Correo electrónico</label>
-      <input type="email" id="loginEmail" required />
-    </div>
-    <div class="input-group">
-      <label for="loginPassword">Contraseña</label>
-      <input type="password" id="loginPassword" required />
-    </div>
-    <button type="submit">Entrar</button>
-    <div id="loginMensaje" class="aviso"></div>
-  </form>
+  <div class="navbar-derecha">
+    <a href="login.html" class="btn-login">Iniciar sesión</a>
+    <a href="registro.html" class="btn-registro">Registrarse</a>
+  </div>
 
-  <!-- Formulario de Registro -->
-  <form id="registroForm" class="form-card" autocomplete="off">
-    <div class="form-title">Registrarse</div>
-    <div class="input-group">
-      <label for="registroNombre">Nombre</label>
-      <input type="text" id="registroNombre" required />
-    </div>
-    <div class="input-group">
-      <label for="registroCorreo">Correo electrónico</label>
-      <input type="email" id="registroCorreo" required />
-    </div>
-    <div class="input-group">
-      <label for="registroContrasena">Contraseña</label>
-      <input type="password" id="registroContrasena" required />
-    </div>
-    <button type="submit">Crear cuenta</button>
-    <div id="registroMensaje" class="aviso"></div>
-  </form>
+
+   
   <header id="hero">
     <div class="hero-overlay">
       <h1 class="eslogan">El arte de soñar envuelto en naturaleza</h1>
@@ -674,54 +648,8 @@
         aviso.style.display = "block";
       }
     });
-    // Login
-document.getElementById('loginForm').addEventListener('submit', async function(e) {
-  e.preventDefault();
-  const email = document.getElementById('loginEmail').value;
-  const password = document.getElementById('loginPassword').value;
+    
 
-  const respuesta = await fetch('http://localhost:3000/api/autenticacion/login', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, password })
-  });
-
-  const datos = await respuesta.json();
-  const mensaje = document.getElementById('loginMensaje');
-  if (respuesta.ok) {
-    mensaje.textContent = '¡Login exitoso!';
-    mensaje.className = 'aviso exito';
-  } else {
-    mensaje.textContent = datos.error || 'Error al iniciar sesión';
-    mensaje.className = 'aviso error';
-  }
-  mensaje.style.display = 'block';
-});
-
-// Registro
-document.getElementById('registroForm').addEventListener('submit', async function(e) {
-  e.preventDefault();
-  const nombre = document.getElementById('registroNombre').value;
-  const correo_electronico = document.getElementById('registroCorreo').value;
-  const contrasena = document.getElementById('registroContrasena').value;
-
-  const respuesta = await fetch('http://localhost:3000/api/autenticacion/registro', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ nombre, correo_electronico, contrasena })
-  });
-
-  const datos = await respuesta.json();
-  const mensaje = document.getElementById('registroMensaje');
-  if (respuesta.ok) {
-    mensaje.textContent = '¡Registro exitoso!';
-    mensaje.className = 'aviso exito';
-  } else {
-    mensaje.textContent = datos.error || 'Error al registrarse';
-    mensaje.className = 'aviso error';
-  }
-  mensaje.style.display = 'block';
-});
   </script>
 </body>
 </html>
