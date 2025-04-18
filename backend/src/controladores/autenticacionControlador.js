@@ -1,6 +1,7 @@
 require('dotenv').config();
 const nodemailer = require('nodemailer'); 
 const jwt = require('jsonwebtoken'); // Agrega esto al inicio del archivo
+const Rol = require('../modelos/Rol');
 
 const Usuario = require('../modelos/Usuario');
 const LoginLog = require('../modelos/RegistroLogin');
@@ -89,24 +90,25 @@ exports.login = async (req, res) => {
     if (await bcrypt.compare(password, usuario.contrasena)) {
       exito = true;
 
+      // Buscar el nombre del rol
+      const rolObj = await Rol.findOne({ where: { id: usuario.rol_id } });
+      const rolNombre = rolObj ? rolObj.nombre.toLowerCase() : 'cliente';
+
       // Generar el token JWT
       const payload = {
         id: usuario.id,
-        rol: usuario.rol_id,
+        rol: rolNombre,
         nombre: usuario.nombre
       };
       const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '2h' });
 
       await LoginLog.create({ usuario_id: usuario.id, exito, ip });
-      console.log('Enviando respuesta:', { mensaje: 'Login exitoso', usuario: usuario.id, nombre: usuario.nombre, token });
-      
-      const nombre = usuario.nombre || (usuario.dataValues && usuario.dataValues.nombre);
-      const rol = usuario.rol_id || (usuario.dataValues && usuario.dataValues.rol_id);
+
       return res.json({
         mensaje: 'Login exitoso',
         usuario: usuario.id,
-        nombre,
-        rol, // <--- agrega esto
+        nombre: usuario.nombre,
+        rol: rolNombre, // <--- ahora envía el nombre del rol
         token
       });
     } else {
