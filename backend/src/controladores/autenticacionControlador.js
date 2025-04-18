@@ -98,7 +98,15 @@ exports.login = async (req, res) => {
       const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '2h' });
 
       await LoginLog.create({ usuario_id: usuario.id, exito, ip });
-      return res.json({ mensaje: 'Login exitoso', usuario: usuario.id, token });
+      console.log('Enviando respuesta:', { mensaje: 'Login exitoso', usuario: usuario.id, nombre: usuario.nombre, token });
+      
+      const nombre = usuario.nombre || (usuario.dataValues && usuario.dataValues.nombre);
+      return res.json({
+        mensaje: 'Login exitoso',
+        usuario: usuario.id,
+        nombre,
+        token
+      });
     } else {
       await LoginLog.create({ usuario_id: usuario.id, exito, ip });
       return res.status(401).json({ error: 'Contraseña incorrecta' });
