@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../configuracion/db');
 const Rol = require('./Rol');
+const bcrypt = require('bcrypt');
 
 /**
  * Modelo de Usuario / Empleado para la plataforma Glamping.
@@ -49,3 +50,10 @@ Rol.hasMany(Usuario, {
 });
 
 module.exports = Usuario;
+
+async function verificarContrasena(usuario, password) {
+  if (!usuario) return false;
+  if (!usuario.contrasena) return false;
+  return await bcrypt.compare(password, usuario.contrasena);
+}
+module.exports.verificarContrasena = verificarContrasena;

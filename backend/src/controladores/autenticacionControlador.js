@@ -1,7 +1,6 @@
 require('dotenv').config();
 const nodemailer = require('nodemailer'); 
-
-
+const jwt = require('jsonwebtoken'); // Agrega esto al inicio del archivo
 
 const Usuario = require('../modelos/Usuario');
 const LoginLog = require('../modelos/RegistroLogin');
@@ -15,7 +14,12 @@ exports.registro = async (req, res) => {
       return res.status(400).json({ error: 'El usuario ya existe' });
     }
     const hash = await bcrypt.hash(contrasena, 10);
-    const usuario = await Usuario.create({ nombre, correo_electronico, contrasena: hash });
+    const usuario = await Usuario.create({
+      nombre,
+      correo_electronico,
+      contrasena: hash,
+      rol_id: 3 // <-- aquí asignas el rol Cliente por defecto
+    });
 
     // Envío de correo de bienvenida
     const transporter = nodemailer.createTransport({
@@ -59,23 +63,49 @@ exports.login = async (req, res) => {
   const { email, password } = req.body;
   const ip = req.ip;
   try {
-    const usuario = await Usuario.findOne({ where: { email } });
+    const usuario = await Usuario.findOne({ where: { correo_electronico: email } });
     let exito = false;
-    if (usuario && await bcrypt.compare(password, usuario.password)) {
-      exito = true;
-      res.json({ mensaje: 'Login exitoso', usuario: usuario.id });
-    } else {
-      res.status(401).json({ error: 'Credenciales inválidas' });
+
+    // Depuración
+    console.log('Usuario:', usuario);
+    console.log('Password recibido:', password);
+    console.log('Hash en BD:', usuario ? usuario.contrasena : undefined);
+
+    // Validaciones robustas
+    if (!usuario) {
+      await LoginLog.create({ usuario_id: null, exito, ip });
+      return res.status(401).json({ error: 'Usuario no encontrado' });
     }
-    await LoginLog.create({
-      usuario_id: usuario ? usuario.id : null,
-      exito,
-      ip,
-    });
+    if (!password) {
+      await LoginLog.create({ usuario_id: usuario.id, exito, ip });
+      return res.status(400).json({ error: 'Contraseña requerida' });
+    }
+    if (!usuario.contrasena) {
+      await LoginLog.create({ usuario_id: usuario.id, exito, ip });
+      return res.status(500).json({ error: 'El usuario no tiene contraseña registrada' });
+    }
+
+    // Comparar contraseña
+    if (await bcrypt.compare(password, usuario.contrasena)) {
+      exito = true;
+
+      // Generar el token JWT
+      const payload = {
+        id: usuario.id,
+        rol: usuario.rol_id,
+        nombre: usuario.nombre
+      };
+      const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '2h' });
+
+      await LoginLog.create({ usuario_id: usuario.id, exito, ip });
+      return res.json({ mensaje: 'Login exitoso', usuario: usuario.id, token });
+    } else {
+      await LoginLog.create({ usuario_id: usuario.id, exito, ip });
+      return res.status(401).json({ error: 'Contraseña incorrecta' });
+    }
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-  
 };
 
 

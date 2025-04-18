@@ -22,6 +22,7 @@ app.use('/api/habitaciones', require('./rutas/habitaciones'));
 app.use('/api/clientes', require('./rutas/clientes'));
 app.use('/api/reservas', require('./rutas/reservas'));
 app.use('/api/autenticacion', require('./rutas/autenticacion'));
+app.use('/api', require('./rutas/bitacora'));
 
 // Ruta de prueba
 app.get('/', (req, res) => {

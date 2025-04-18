@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const reservasController = require('../controladores/reservasController');
-const { validarCreacionReserva } = require('../middleware/validacionReserva');
+const { validarCreacionReserva } = require('../middlewares/validacionReserva');
 
 // Listar todas las reservas
 router.get('/', reservasController.listarReservas);

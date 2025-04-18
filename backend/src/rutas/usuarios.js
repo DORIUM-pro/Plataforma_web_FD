@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const usuariosController = require('../controladores/usuariosController');
-const { validarCreacionUsuario } = require('../middleware/validacionUsuario');
+const { validarCreacionUsuario } = require('../middlewares/validacionUsuario');
 
 // Listar todos los usuarios
 router.get('/', usuariosController.listarUsuarios);

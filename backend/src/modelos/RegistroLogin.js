@@ -10,7 +10,7 @@ const RegistroLogin = sequelize.define('RegistroLogin', {
     type: DataTypes.BOOLEAN,
     allowNull: false,
   },
-  fecha: {
+  fecha_hora: { // <-- Cambia 'fecha' por 'fecha_hora'
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
   },
