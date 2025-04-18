@@ -101,10 +101,12 @@ exports.login = async (req, res) => {
       console.log('Enviando respuesta:', { mensaje: 'Login exitoso', usuario: usuario.id, nombre: usuario.nombre, token });
       
       const nombre = usuario.nombre || (usuario.dataValues && usuario.dataValues.nombre);
+      const rol = usuario.rol_id || (usuario.dataValues && usuario.dataValues.rol_id);
       return res.json({
         mensaje: 'Login exitoso',
         usuario: usuario.id,
         nombre,
+        rol, // <--- agrega esto
         token
       });
     } else {
