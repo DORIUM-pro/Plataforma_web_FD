@@ -173,3 +173,28 @@
 - Esta implementación mejora la trazabilidad, la seguridad y la transparencia de todas las operaciones administrativas.
 
 ---
+
+## [Incidente] Error al iniciar el servidor: Cannot find module '../config/db'
+
+**Fecha:** 18/04/2025  
+**Descripción:**  
+Al intentar iniciar el backend, se presentó el siguiente error:
+
+```
+Error: Cannot find module '../config/db'
+Require stack:
+- backend/src/models/Bitacora.js
+- backend/src/app.js
+```
+
+**Causa:**  
+El archivo de configuración de la base de datos estaba siendo importado con la ruta incorrecta (`../config/db`) en el modelo `Bitacora.js`. El archivo correcto es `../configuracion/db`.
+
+**Solución aplicada:**  
+Se corrigió la línea de importación en `backend/src/models/Bitacora.js`:
+```javascript
+const sequelize = require('../configuracion/db');
+```
+Con este cambio, el servidor inicia correctamente y el modelo Bitacora funciona como esperado.
+
+---
