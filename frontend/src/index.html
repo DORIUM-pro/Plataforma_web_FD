@@ -377,11 +377,35 @@
   </style>
 </head>
 <body>
-  <div class="navbar-derecha">
+  <!-- Barra de login/registro -->
+  <div class="navbar-derecha" id="navbar-derecha">
     <a href="login.html" class="btn-login">Iniciar sesión</a>
     <a href="registro.html" class="btn-registro">Registrarse</a>
   </div>
 
+  <!-- Info de usuario autenticado -->
+  <div id="usuario-info" style="display:none; text-align:right; margin: 16px 24px 0 0;">
+    <span id="usuario-nombre" style="font-weight:600; color:#3686da;"></span>
+    <button id="cerrar-sesion" style="margin-left:12px; background:#e17373; color:#fff; border:none; border-radius:4px; padding:4px 10px; cursor:pointer;">Cerrar sesión</button>
+  </div>
+
+  <div id="usuario-superior" style="text-align:right; margin: 16px 24px 0 0; font-weight:600; color:#3686da;"></div>
+
+  <div id="admin-panel" style="display:none;">
+    <h3>Panel de administración</h3>
+    <ul>
+      <li><a href="admin.html">Gestión de usuarios</a></li>
+      <li><a href="reservas-admin.html">Gestión de reservas</a></li>
+      <li><a href="reportes.html">Ver reportes</a></li>
+    </ul>
+  </div>
+  <div id="cliente-panel" style="display:none;">
+    <h3>Mi espacio</h3>
+    <ul>
+      <li><a href="mis-reservas.html">Mis reservas</a></li>
+      <li><a href="perfil.html">Mi perfil</a></li>
+    </ul>
+  </div>
 
    
   <header id="hero">
@@ -476,6 +500,7 @@
   <div class="container" id="reservas">
     <form id="form-reserva" class="form-card" autocomplete="off">
       <div class="form-title">Reserva tu Frijolito Dormilón</div>
+      <div id="mensaje-bienvenida" style="display:none; text-align:center; margin: 16px 0; font-size:1.1em; color:#3686da;"></div>
       <div class="input-group">
         <label for="cliente_id">Cliente ID</label>
         <input id="cliente_id" type="number" name="cliente_id" required placeholder="Ej: 12"/>
@@ -649,7 +674,63 @@
       }
     });
     
+    // Mostrar el nombre del usuario si está logueado
+    const nombre = localStorage.getItem('nombre');
+    if (nombre) {
+      document.getElementById('usuario-superior').textContent = `¡Hola, ${nombre}!`;
+    }
 
+    // Mostrar mensaje de bienvenida solo después del login
+    const bienvenida = localStorage.getItem('bienvenida');
+    if (bienvenida === '1' && nombre) {
+      const mensajeBienvenida = document.getElementById('mensaje-bienvenida');
+      mensajeBienvenida.textContent = `¡Bienvenido, ${nombre}!`;
+      mensajeBienvenida.style.display = 'block';
+      setTimeout(() => {
+        mensajeBienvenida.style.display = 'none';
+        localStorage.removeItem('bienvenida');
+      }, 3000);
+    }
+
+    // Mostrar u ocultar opciones según login
+    const navbar = document.getElementById('navbar-derecha');
+    const usuarioInfo = document.getElementById('usuario-info');
+    const usuarioNombre = document.getElementById('usuario-nombre');
+    const btnCerrarSesion = document.getElementById('cerrar-sesion');
+
+    if (nombre) {
+      // Oculta login/registro y muestra info usuario
+      if (navbar) navbar.style.display = 'none';
+      if (usuarioInfo) {
+        usuarioInfo.style.display = 'block';
+        usuarioNombre.textContent = `¡Hola, ${nombre}!`;
+      }
+    } else {
+      // Muestra login/registro y oculta info usuario
+      if (navbar) navbar.style.display = 'block';
+      if (usuarioInfo) usuarioInfo.style.display = 'none';
+    }
+
+    // Cerrar sesión
+    if (btnCerrarSesion) {
+      btnCerrarSesion.onclick = function() {
+        localStorage.clear();
+        window.location.href = "index.html";
+      };
+    }
+
+    const rol = localStorage.getItem('rol');
+    const adminPanel = document.getElementById('admin-panel');
+    const clientePanel = document.getElementById('cliente-panel');
+
+    if (rol === '1' && adminPanel) {
+      adminPanel.style.display = 'block';
+      if (clientePanel) clientePanel.style.display = 'none';
+    }
+    if (rol === '3' && clientePanel) {
+      clientePanel.style.display = 'block';
+      if (adminPanel) adminPanel.style.display = 'none';
+    }
   </script>
 </body>
 </html>

@@ -106,4 +106,26 @@
 - Se documentó el flujo de depuración, incluyendo pruebas con scripts independientes y revisión de la codificación del archivo `.env`.
 - Se validó el funcionamiento de la API y el envío de correos observando los mensajes en la terminal del backend tras cada registro.
 
+## [Fecha: 17/04/2025] - Mejoras en autenticación y roles
+
+- Se creó la tabla `registro_login` para registrar intentos de acceso.
+- Se corrigió el modelo `RegistroLogin` para coincidir con la base de datos.
+- Se agregó el rol "Cliente" y se asigna por defecto a nuevos usuarios.
+- Se verificó el registro y login exitoso de usuarios.
+- Se preparó el backend para mostrar el nombre del usuario en el frontend tras el login.
+
+## [Fecha: 17/04/2025] - Mejoras en experiencia de usuario autenticado
+
+- Se agregó un apartado para mostrar el nombre del usuario autenticado en la página principal.
+- Se ocultan los botones de "Iniciar sesión" y "Registrarse" cuando el usuario ya ha iniciado sesión.
+- Se añadió el botón "Cerrar sesión" que limpia el localStorage y recarga la página.
+- Se corrigió el envío del campo `nombre` en la respuesta del login.
+- Se verificó el flujo completo de login, saludo y cierre de sesión.
+
+## [Fecha: 17/04/2025] - Personalización de experiencia según rol
+
+- Se implementó la visualización de paneles personalizados para administrador y cliente según el rol guardado en localStorage.
+- El frontend ahora muestra el panel de administración solo a administradores y el panel de cliente solo a clientes.
+- Se mantiene la ocultación de botones de login/registro y el botón de cerrar sesión para todos los usuarios autenticados.
+
 ---

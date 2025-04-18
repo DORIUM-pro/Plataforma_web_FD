@@ -65,6 +65,7 @@
 - **Gestión de variables de entorno** con dotenv para credenciales y configuración sensible.
 - **Validación de datos** en endpoints de autenticación y registro.
 - **Control de errores y mensajes claros** en la API y en la terminal del backend.
+- **Asignación automática del rol "Cliente" a nuevos usuarios registrados.**
 
 ---
 
@@ -76,6 +77,7 @@
 | Limpieza      |          ❌             |       ✅        |           ✅             |      ❌       |      ❌      |
 | Mantenimiento |          ❌             |       ✅        |           ✅             |      ❌       |      ❌      |
 | Recepción     |          ✅             |       ✅        |           ❌             |      ❌       |      ❌      |
+| Cliente       |          ✅             |       ✅        |           ❌             |      ❌       |      ❌      |
 
 ---
 
