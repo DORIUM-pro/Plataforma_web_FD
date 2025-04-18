@@ -225,7 +225,7 @@ body {
   position: relative;
   width: 100%;
   aspect-ratio: 1.25/1;
-  background: #dad7ce url('assets/fallback.jpg') center/cover no-repeat;
+  background: #dad7ce; /* Elimina url('assets/fallback.jpg') */
   overflow: hidden;
 }
 

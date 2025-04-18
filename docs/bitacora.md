@@ -139,3 +139,7 @@
 - Se documentó el proceso y las buenas prácticas en la bitácora para futuras referencias y trabajo colaborativo.
 
 ---
+- Se eliminó la lógica antigua que mostraba el panel de administración según el ID del rol y se dejó solo la validación por nombre de rol ("admin" o "administrador") en el frontend.
+- Se verificó que solo los usuarios con rol de administrador pueden ver y acceder a las funciones administrativas.
+- Se probó el flujo completo de inicio de sesión y acceso a las opciones de administración.
+- El código fue limpiado y documentado para mayor claridad y mantenibilidad.

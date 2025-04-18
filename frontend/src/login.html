@@ -38,6 +38,7 @@
       });
 
       const datos = await respuesta.json();
+      console.log(datos); // <-- agrega esto para ver la respuesta real
       const mensaje = document.getElementById('loginMensaje');
       if (respuesta.ok) {
         mensaje.textContent = '¡Login exitoso!';
@@ -46,7 +47,7 @@
         localStorage.setItem('nombre', datos.nombre);
         localStorage.setItem('token', datos.token);
         localStorage.setItem('bienvenida', '1');
-        localStorage.setItem('rol', datos.rol);
+        localStorage.setItem('rol', datos.rol); // <-- aquí debe ir el nombre del rol, no el ID
         setTimeout(() => {
           window.location.href = "index.html";
         }, 1000);

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Administración | Frijolitos Dormilones</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="logo-header">
+    <a href="index.html">
+      <img src="img/logo.png" alt="Frijolitos Dormilones" class="logo-img">
+    </a>
+  </div>
+  <div class="container">
+    <h1>Panel de Administración</h1>
+    <nav>
+      <ul>
+        <li><a href="#usuarios">Gestión de usuarios</a></li>
+        <li><a href="#roles">Asignar roles</a></li>
+        <li><a href="#crear-admin">Crear administrador</a></li>
+      </ul>
+    </nav>
+    <section id="usuarios">
+      <h2>Gestión de usuarios</h2>
+      <table class="tabla-usuarios">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Rol</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="usuarios-tbody">
+          <!-- Aquí se llenarán los usuarios dinámicamente -->
+        </tbody>
+      </table>
+    </section>
+    <section id="roles">
+      <h2>Asignar roles</h2>
+      <!-- Aquí irá el formulario para asignar/cambiar roles -->
+    </section>
+    <section id="crear-admin">
+      <h2>Crear administrador</h2>
+      <!-- Aquí irá el formulario protegido con llave especial -->
+    </section>
+  </div>
+  <script>
+    // Protección básica en frontend (solo ejemplo, siempre validar en backend)
+    const rol = localStorage.getItem('rol');
+    if (rol !== 'admin' && rol !== 'administrador') {
+      alert('Acceso solo para administradores');
+      window.location.href = "index.html";
+    }
+
+    // Ejemplo de cómo cargar usuarios (ajusta la URL a tu backend)
+    async function cargarUsuarios() {
+      const resp = await fetch('http://localhost:3000/api/usuarios', {
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('token')
+        }
+      });
+      const usuarios = await resp.json();
+      const tbody = document.getElementById('usuarios-tbody');
+      tbody.innerHTML = '';
+      usuarios.forEach(usuario => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${usuario.id}</td>
+          <td>${usuario.nombre}</td>
+          <td>${usuario.correo}</td>
+          <td>${usuario.rol}</td>
+          <td>
+            <button onclick="editarUsuario(${usuario.id})">Editar</button>
+            <button onclick="eliminarUsuario(${usuario.id})">Eliminar</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Llama a la función al cargar la página
+    cargarUsuarios();
+
+    // Funciones vacías para editar/eliminar (puedes implementarlas después)
+    function editarUsuario(id) {
+      alert('Función editar usuario ' + id);
+    }
+    function eliminarUsuario(id) {
+      if (confirm('¿Seguro que deseas eliminar este usuario?')) {
+        // Aquí iría la lógica para eliminar el usuario
+        alert('Usuario eliminado (implementa la lógica)');
+      }
+    }
+  </script>
+</body>
+</html>

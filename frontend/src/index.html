@@ -23,10 +23,8 @@
     <button id="cerrar-sesion">Cerrar sesión</button>
   </div>
 
-  
-
-  <div id="admin-panel">
-    <h3>Panel de administración</h3>
+  <div id="admin-panel" style="display:none;">
+    <!-- Opciones de administración aquí -->
     <ul>
       <li><a href="admin.html">Gestión de usuarios</a></li>
       <li><a href="reservas-admin.html">Gestión de reservas</a></li>
@@ -41,7 +39,6 @@
     </ul>
   </div>
 
-   
   <header id="hero">
     <div class="hero-overlay">
       <h1 class="eslogan">El arte de soñar envuelto en naturaleza</h1>
@@ -352,14 +349,17 @@
     const adminPanel = document.getElementById('admin-panel');
     const clientePanel = document.getElementById('cliente-panel');
 
-    if (rol === '1' && adminPanel) {
-      adminPanel.style.display = 'block';
-      if (clientePanel) clientePanel.style.display = 'none';
-    }
-    if (rol === '3' && clientePanel) {
-      clientePanel.style.display = 'block';
-      if (adminPanel) adminPanel.style.display = 'none';
-    }
+    document.addEventListener('DOMContentLoaded', function() {
+      const rol = localStorage.getItem('rol');
+      const adminPanel = document.getElementById('admin-panel');
+      if (adminPanel) {
+        if (rol === 'admin' || rol === 'administrador') {
+          adminPanel.style.display = 'block';
+        } else {
+          adminPanel.style.display = 'none';
+        }
+      }
+    });
   </script>
 </body>
 </html>
