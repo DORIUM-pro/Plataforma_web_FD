@@ -4,76 +4,13 @@
   <meta charset="UTF-8">
   <title>Iniciar sesión | Frijolitos Dormilones</title>
   <link rel="stylesheet" href="style.css">
-  <style>
-    body {
-      background: #f6f9fa;
-      font-family: 'Montserrat', sans-serif;
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-    }
-    .form-card {
-      background: #fff;
-      padding: 32px 24px;
-      border-radius: 10px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-      margin-top: 60px;
-      width: 100%;
-      max-width: 350px;
-    }
-    .form-title {
-      font-size: 1.5em;
-      margin-bottom: 18px;
-      color: #3686da;
-      text-align: center;
-    }
-    .input-group {
-      margin-bottom: 16px;
-    }
-    .input-group label {
-      display: block;
-      margin-bottom: 6px;
-      color: #333;
-    }
-    .input-group input {
-      width: 100%;
-      padding: 8px;
-      border: 1px solid #bbb;
-      border-radius: 5px;
-      font-size: 1em;
-    }
-    button[type="submit"] {
-      width: 100%;
-      background: #3686da;
-      color: #fff;
-      border: none;
-      padding: 10px;
-      border-radius: 5px;
-      font-size: 1em;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-    .aviso {
-      margin-top: 12px;
-      text-align: center;
-      font-size: 0.98em;
-    }
-    .aviso.exito { color: #39b16a; }
-    .aviso.error { color: #e17373; }
-    .volver {
-      display: block;
-      margin: 18px auto 0 auto;
-      text-align: center;
-      color: #3686da;
-      text-decoration: none;
-      font-size: 0.98em;
-    }
-  </style>
 </head>
 <body>
+  <div class="logo-header">
+    <a href="index.html">
+      <img src="img/logo.png" alt="Frijolitos Dormilones" class="logo-img">
+    </a>
+  </div>
   <form id="loginForm" class="form-card" autocomplete="off">
     <div class="form-title">Iniciar sesión</div>
     <div class="input-group">
@@ -109,7 +46,7 @@
         localStorage.setItem('nombre', datos.nombre);
         localStorage.setItem('token', datos.token);
         localStorage.setItem('bienvenida', '1');
-        localStorage.setItem('rol', datos.rol); // <--- agrega esto
+        localStorage.setItem('rol', datos.rol);
         setTimeout(() => {
           window.location.href = "index.html";
         }, 1000);

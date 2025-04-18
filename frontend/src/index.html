@@ -2,381 +2,15 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Frijolitos Dormilones | El arte de soñar envuelto en naturaleza</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --azul-frijolitos: #3686da;
-      --verde-aceptar: #39b16a;
-      --amarillo-aviso: #fff3cd;
-      --rojo-error: #e17373;
-      --gris-suave: #f6f9fa;
-    }
-
-    body {
-      font-family: 'Segoe UI', 'Arial', sans-serif;
-      background: var(--gris-suave);
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .container {
-      margin-top: 44px;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .form-card {
-      background: #fff;
-      border-radius: 20px;
-      box-shadow: 0 8px 36px rgba(54,134,218,0.11),
-                  0 1.5px 3px rgba(60,60,60,0.15);
-      padding: 38px 32px 30px 32px;
-      width: 100%;
-      max-width: 420px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      position: relative;
-      animation: fadeIn 0.9s;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(30px);}
-      to   { opacity: 1; transform: translateY(0);}
-    }
-    .form-title {
-      text-align: center;
-      font-size: 1.5em;
-      color: var(--azul-frijolitos);
-      margin-bottom: 18px;
-      letter-spacing: 1px;
-    }
-    label {
-      font-weight: 450;
-      display: block;
-      margin-bottom: 6px;
-      color: #28323b;
-      letter-spacing: 0.6px;
-    }
-    .input-group {
-      margin-bottom: 18px;
-      display: flex;
-      flex-direction: column;
-      gap:2px;
-    }
-    input, select {
-      padding: 10px 12px;
-      border: 1.5px solid #d5e4fd;
-      border-radius: 7px;
-      font-size: 1em;
-      transition: border-color 0.2s;
-      background: #fbfcfe;
-      outline: none;
-    }
-    input:focus, select:focus {
-      border-color: var(--azul-frijolitos);
-      background: #eef5fe;
-    }
-    button {
-      margin-top: 8px;
-      padding: 0.8em 0;
-      background: linear-gradient(90deg, #43a6da, #3686da 90%);
-      color: #fff;
-      border-radius: 8px;
-      border: none;
-      font-size: 1.08em;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.18s, transform 0.1s;
-      box-shadow: 0 3px 8px rgba(54,134,218,0.10);
-      letter-spacing: 1px;
-    }
-    button:active {
-      background: #3686da;
-      transform: scale(0.97);
-    }
-    .aviso {
-      display: none;
-      margin-top: 16px;
-      padding: 15px 18px;
-      border-radius: 10px;
-      font-size: 1.08em;
-      line-height: 1.56;
-      box-shadow: 0 1.5px 7px rgba(54,134,218,0.04);
-      position: relative;
-    }
-    .aviso.exito {
-      display: block;
-      border-left: 7px solid var(--verde-aceptar);
-      background: #e7f8ef;
-      color: #19553d;
-    }
-    .aviso.aviso {
-      display: block;
-      border-left: 7px solid #e3c072;
-      background: var(--amarillo-aviso);
-      color: #8c7307;
-    }
-    .aviso.error {
-      display: block;
-      border-left: 7px solid var(--rojo-error);
-      background: #fbeaea;
-      color: #a83c3c;
-    }
-
-    .aviso ul {
-      margin: 12px 0 0 25px;
-      padding-left: 0;
-    }
-    .icono {
-      font-size: 1.3em;
-      margin-right: 6px;
-      vertical-align: top;
-    }
-    @media (max-width: 550px) {
-      .form-card { padding: 19px 5vw 16px 5vw; }
-    }
-    
-    /* Estilos para la sección de Experiencia */
-    #experiencia-frijolitos {
-      padding: 60px 20px;
-      background-color: #f9f9f9;
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    
-    .seccion-titulo {
-      text-align: center;
-      font-family: 'Playfair Display', serif;
-      color: #2a4a29;
-      font-size: 2.2em;
-      margin-bottom: 40px;
-      position: relative;
-    }
-    
-    .seccion-titulo::after {
-      content: "";
-      display: block;
-      width: 80px;
-      height: 3px;
-      background: var(--azul-frijolitos);
-      margin: 15px auto 0;
-    }
-    
-    .experiencia-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 30px;
-      margin-top: 40px;
-    }
-    
-    .experiencia-bloque {
-      background: white;
-      border-radius: 12px;
-      padding: 30px 25px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-      text-align: center;
-      transition: transform 0.3s ease;
-    }
-    
-    .experiencia-bloque:hover {
-      transform: translateY(-5px);
-    }
-    
-    .experiencia-icono {
-      margin: 0 auto 20px;
-      width: 70px;
-      height: 70px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #f6f9fa;
-      border-radius: 50%;
-    }
-    
-    .experiencia-bloque h3 {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 600;
-      color: #2a4a29;
-      margin-bottom: 15px;
-      font-size: 1.3em;
-    }
-    
-    .experiencia-bloque p {
-      color: #555;
-      line-height: 1.6;
-      font-size: 1em;
-    }
-    
-    @media (max-width: 768px) {
-      .experiencia-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .seccion-titulo {
-        font-size: 1.8em;
-      }
-    }
-    
-    /* Estilos para la sección de Las Lunas */
-    #lunas {
-      padding: 60px 20px;
-      background-color: #fff;
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    
-    .lunas-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 30px;
-      margin-top: 40px;
-    }
-    
-    .luna-card {
-      background: white;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      position: relative;
-    }
-    
-    .luna-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 25px rgba(0,0,0,0.12);
-    }
-    
-    .luna-img-wrap {
-      position: relative;
-      height: 220px;
-      overflow: hidden;
-    }
-    
-    .luna-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.5s ease;
-    }
-    
-    .luna-card:hover .luna-img {
-      transform: scale(1.05);
-    }
-    
-    .badge {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-size: 0.85em;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    
-    .badge.disponible {
-      background-color: var(--verde-aceptar);
-      color: white;
-    }
-    
-    .badge.promo {
-      background-color: #e3c072;
-      color: #5a4500;
-    }
-    
-    .luna-contenido {
-      padding: 20px 25px 25px;
-    }
-    
-    .luna-contenido h3 {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 600;
-      color: #2a4a29;
-      margin-bottom: 10px;
-      font-size: 1.4em;
-    }
-    
-    .luna-contenido p {
-      color: #555;
-      line-height: 1.6;
-      margin-bottom: 20px;
-    }
-    
-    .btn-vermas {
-      display: inline-block;
-      padding: 8px 20px;
-      background: var(--azul-frijolitos);
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    
-    .btn-vermas:hover {
-      background: #2a75c7;
-    }
-    
-    @media (max-width: 768px) {
-      .lunas-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-    
-    /* Estilos para el modal de Luna */
-    .modal-luna {
-      position: fixed;
-      left: 0; top: 0; right: 0; bottom: 0;
-      background: rgba(44,82,193,0.11);
-      backdrop-filter: blur(1.5px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-    }
-    .modal-luna .modal-content {
-      background: #fff;
-      padding: 36px 24px 24px 24px;
-      border-radius: 18px;
-      max-width: 410px;
-      width: 93vw;
-      box-shadow: 0 8px 30px rgba(41,80,170,0.22);
-      position: relative;
-      animation: fadeIn 0.34s;
-    }
-    .modal-cerrar {
-      position: absolute;
-      right: 12px; top: 10px;
-      font-size: 2.1em;
-      cursor: pointer;
-      color: #3686da;
-      font-weight: 700;
-      transition: color 0.18s;
-      user-select: none;
-      line-height: 1;
-    }
-    .modal-cerrar:hover { 
-      color: #265890;
-    }
-    @media (max-width: 520px) {
-      .modal-luna .modal-content { 
-        padding: 16px 4vw 16px 4vw; 
-      }
-    }
-  </style>
+  <title>Inicio | Frijolitos Dormilones</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="logo-header">
+    <a href="index.html">
+      <img src="img/logo.png" alt="Frijolitos Dormilones" class="logo-img">
+    </a>
+  </div>
   <!-- Barra de login/registro -->
   <div class="navbar-derecha" id="navbar-derecha">
     <a href="login.html" class="btn-login">Iniciar sesión</a>
@@ -384,14 +18,14 @@
   </div>
 
   <!-- Info de usuario autenticado -->
-  <div id="usuario-info" style="display:none; text-align:right; margin: 16px 24px 0 0;">
-    <span id="usuario-nombre" style="font-weight:600; color:#3686da;"></span>
-    <button id="cerrar-sesion" style="margin-left:12px; background:#e17373; color:#fff; border:none; border-radius:4px; padding:4px 10px; cursor:pointer;">Cerrar sesión</button>
+  <div id="usuario-info">
+    <span id="usuario-nombre"></span>
+    <button id="cerrar-sesion">Cerrar sesión</button>
   </div>
 
-  <div id="usuario-superior" style="text-align:right; margin: 16px 24px 0 0; font-weight:600; color:#3686da;"></div>
+  
 
-  <div id="admin-panel" style="display:none;">
+  <div id="admin-panel">
     <h3>Panel de administración</h3>
     <ul>
       <li><a href="admin.html">Gestión de usuarios</a></li>
@@ -399,7 +33,7 @@
       <li><a href="reportes.html">Ver reportes</a></li>
     </ul>
   </div>
-  <div id="cliente-panel" style="display:none;">
+  <div id="cliente-panel">
     <h3>Mi espacio</h3>
     <ul>
       <li><a href="mis-reservas.html">Mis reservas</a></li>
@@ -559,6 +193,7 @@
     const modal = document.getElementById('modal-luna');
     const modalBody = document.getElementById('modal-luna-body');
     const modalCerrar = document.getElementById('modal-cerrar');
+    const nombre = localStorage.getItem('nombre');
     
     // Manejador para botones "Ver más" de las lunas
     document.querySelectorAll('.btn-vermas').forEach(btn => {
@@ -674,12 +309,6 @@
       }
     });
     
-    // Mostrar el nombre del usuario si está logueado
-    const nombre = localStorage.getItem('nombre');
-    if (nombre) {
-      document.getElementById('usuario-superior').textContent = `¡Hola, ${nombre}!`;
-    }
-
     // Mostrar mensaje de bienvenida solo después del login
     const bienvenida = localStorage.getItem('bienvenida');
     if (bienvenida === '1' && nombre) {

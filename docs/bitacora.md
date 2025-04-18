@@ -128,4 +128,14 @@
 - El frontend ahora muestra el panel de administración solo a administradores y el panel de cliente solo a clientes.
 - Se mantiene la ocultación de botones de login/registro y el botón de cerrar sesión para todos los usuarios autenticados.
 
+## [Fecha: 17/04/2025] - Centralización y mejora del diseño frontend
+
+- Se eliminaron todos los bloques `<style>...</style>` de los archivos HTML del frontend (`index.html`, `login.html`, `registro.html`), centralizando los estilos en el archivo `style.css`.
+- Se reorganizó y documentó el archivo `style.css` usando variables CSS, secciones comentadas y agrupación lógica de estilos (body, logo, navbar, formularios, paneles, responsive, etc.).
+- Se eliminaron todos los estilos inline de los archivos HTML, asegurando que la presentación se controle únicamente desde el CSS externo.
+- Se unificó la estructura visual en todas las páginas principales: logo en la esquina superior izquierda, formularios con diseño consistente, paneles y botones estilizados.
+- Se mejoró la experiencia visual y la coherencia de marca aplicando un fondo degradado con los colores institucionales y ajustando los componentes para mayor armonía.
+- Se verificó que todos los formularios y paneles funcionen correctamente con la nueva estructura de estilos.
+- Se documentó el proceso y las buenas prácticas en la bitácora para futuras referencias y trabajo colaborativo.
+
 ---

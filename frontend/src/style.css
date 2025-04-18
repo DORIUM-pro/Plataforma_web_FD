@@ -1,15 +1,20 @@
-/* Fuente principal: Playfair Display para títulos, Montserrat para contenido */
+/* ===== Variables y fuentes ===== */
 :root {
   --negro: #161616;
   --blanco: #fff;
   --dorado: #dbc178;
   --beige: #ece4d9;
   --verde: #2a4a29;
+  --azul-logo: #305EAE;
+  --verde-logo: #4DA56D;
+  --beige-logo: #FBEAD1;
+  --cafe-logo: #8C4A2F;
 
   --fuente-titulo: 'Playfair Display', serif;
   --fuente-cuerpo: 'Montserrat', sans-serif;
 }
 
+/* ===== Responsive: Lunas Grid ===== */
 @media (max-width: 650px) {
   .lunas-grid {
     flex-direction: column;
@@ -23,39 +28,36 @@
   }
 }
 
+/* ===== HTML y Body ===== */
 html {
   scroll-behavior: smooth;
 }
 
 body {
-  margin: 0;
+  background: linear-gradient(120deg, #FBEAD1 0%, #4DA56D 55%, #305EAE 100%, #8C4A2F 120%);
   font-family: var(--fuente-cuerpo);
-  background: var(--beige);
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   color: var(--negro);
 }
 
-/* HERO PRINCIPAL */
+/* ===== HERO PRINCIPAL ===== */
 #hero {
   min-height: 100vh;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #000 url('assets/hero-bg.jpg') center/cover no-repeat;
+  background: transparent;
 }
 
 .hero-overlay {
-  background: rgba(22,22,22,0.40);
   width: 100%;
-  height: 100%;
-  position: absolute;
-  top:0;
-  left:0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 2;
+  text-align: center;
+  padding: 80px 20px 60px 20px;
 }
 
 .logo-animado {
@@ -70,30 +72,30 @@ body {
 }
 
 .eslogan {
+  color: #2a4a29;
   font-family: var(--fuente-titulo);
-  color: var(--blanco);
-  font-size: 2.1rem;
-  letter-spacing: 1.2px;
-  margin: 0 0 2rem 0;
-  text-align: center;
+  font-size: 2.5em;
+  text-shadow: 0 2px 16px rgba(0,0,0,0.08);
+  margin-bottom: 30px;
 }
 
 .btn-reservar {
-  background: var(--dorado);
-  color: var(--negro);
-  padding: 1rem 2.2rem;
-  border-radius: 30px;
-  font-size: 1.2rem;
+  background: linear-gradient(90deg, #43a6da, #3686da 90%);
+  color: #fff;
+  border-radius: 8px;
+  border: none;
+  font-size: 1.2em;
   font-weight: 600;
-  box-shadow: 0 1px 16px 0 var(--dorado), 0 3px 12px 0 #0003;
+  padding: 14px 38px;
+  cursor: pointer;
   text-decoration: none;
-  transition: background 0.3s, color 0.3s;
+  box-shadow: 0 3px 8px rgba(54,134,218,0.10);
+  transition: background 0.18s, transform 0.1s;
 }
 
 .btn-reservar:hover {
-  background: var(--blanco);
-  color: var(--negro);
-  box-shadow: 0 1px 8px 0 var(--dorado), 0 1px 4px 0 #0002;
+  background: #3686da;
+  transform: scale(1.04);
 }
 
 .btn-flotante {
@@ -182,7 +184,7 @@ body {
   margin: 0;
 }
 
-/* ==== Galería de Lunas (Alojamientos) ==== */
+/* ===== Galería de Lunas (Alojamientos) ===== */
 #lunas {
   padding: 4rem 2rem;
   max-width: 1280px;
@@ -295,7 +297,7 @@ body {
   color: var(--blanco);
 }
 
-/* Placeholders para secciones siguientes */
+/* ===== Secciones genéricas ===== */
 #actividades,
 #galeria,
 #como-llegar,
@@ -305,7 +307,7 @@ body {
   margin: 0 auto;
 }
 
-/* FOOTER */
+/* ===== Footer ===== */
 #footer {
   background: var(--negro);
   color: var(--blanco);
@@ -314,7 +316,7 @@ body {
   border-top: 5px solid var(--dorado);
 }
 
-/* Mobile First Ajustes Básicos */
+/* ===== Responsive: Mobile First Ajustes Básicos ===== */
 @media (max-width:900px) {
   .eslogan { font-size: 1.4rem; }
   #lunas,
@@ -368,4 +370,95 @@ body {
     background: var(--blanco);
     color: var(--negro);
   }
+}
+
+/* ===== Logo ===== */
+.logo-header {
+  position: absolute;
+  top: 18px;
+  left: 28px;
+  z-index: 100;
+}
+.logo-img {
+  height: 120px;
+  max-width: 100%;
+  display: block;
+}
+@media (max-width: 600px) {
+  .logo-header {
+    top: 10px;
+    left: 10px;
+  }
+  .logo-img {
+    height: 70px;
+  }
+}
+
+/* ===== Contenedor principal ===== */
+.container {
+  margin-top: 44px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ===== Formularios ===== */
+.form-card {
+  background: #fff;
+  padding: 32px 24px;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  margin-top: 60px;
+  width: 100%;
+  max-width: 400px;
+}
+.input-group {
+  margin-bottom: 18px;
+}
+.input-group label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--verde);
+  font-weight: 600;
+}
+.input-group input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  font-size: 1em;
+}
+
+/* ===== Navbar y usuario ===== */
+.navbar-derecha {
+  position: absolute;
+  top: 24px;
+  right: 32px;
+  z-index: 101;
+}
+#usuario-info {
+  position: absolute;
+  top: 24px;
+  right: 32px;
+  z-index: 101;
+  display: none;
+}
+#usuario-nombre {
+  font-weight: 600;
+  color: #3686da;
+}
+#cerrar-sesion {
+  margin-left: 12px;
+  background: #e17373;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 10px;
+  cursor: pointer;
+}
+
+/* ===== Paneles ===== */
+#admin-panel, #cliente-panel {
+  display: none;
 }
