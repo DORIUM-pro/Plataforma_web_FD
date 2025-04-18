@@ -18,10 +18,22 @@
         <li><a href="#usuarios">Gestión de usuarios</a></li>
         <li><a href="#roles">Asignar roles</a></li>
         <li><a href="#crear-admin">Crear administrador</a></li>
+        <li><a href="#gestion-empleados">Crear empleado</a></li>
       </ul>
     </nav>
     <section id="usuarios">
       <h2>Gestión de usuarios</h2>
+      <div id="filtros-usuarios" style="margin-bottom: 1em;">
+        <input type="text" id="busqueda-usuario" placeholder="Buscar por nombre o correo">
+        <select id="filtro-rol">
+          <option value="">Todos los roles</option>
+          <option value="administrador">Administrador</option>
+          <option value="limpieza">Limpieza</option>
+          <option value="cliente">Cliente</option>
+          <!-- Agrega más roles si es necesario -->
+        </select>
+        <button onclick="filtrarUsuarios()">Buscar</button>
+      </div>
       <table class="tabla-usuarios">
         <thead>
           <tr>
@@ -39,32 +51,99 @@
     </section>
     <section id="roles">
       <h2>Asignar roles</h2>
-      <!-- Aquí irá el formulario para asignar/cambiar roles -->
+      <form id="form-asignar-rol">
+        <label for="usuario-id-rol">ID de usuario:</label>
+        <input type="number" id="usuario-id-rol" name="usuario_id" required>
+
+        <label for="nuevo-rol">Nuevo rol:</label>
+        <select id="nuevo-rol" name="rol" required>
+          <option value="limpieza">Limpieza</option>
+          <option value="cliente">Cliente</option>
+          <option value="administrador">Administrador</option>
+          <!-- Agrega más roles si es necesario -->
+        </select>
+
+        <button type="submit">Asignar rol</button>
+      </form>
+      <div id="mensaje-asignar-rol"></div>
     </section>
     <section id="crear-admin">
-      <h2>Crear administrador</h2>
-      <!-- Aquí irá el formulario protegido con llave especial -->
+      <h2>Crear administrador (requiere llave especial)</h2>
+      <form id="form-crear-admin">
+        <label for="nombre-admin">Nombre:</label>
+        <input type="text" id="nombre-admin" name="nombre" required>
+
+        <label for="correo-admin">Correo electrónico:</label>
+        <input type="email" id="correo-admin" name="correo" required>
+
+        <label for="llave-admin">Llave especial:</label>
+        <input type="password" id="llave-admin" name="llave" required>
+
+        <button type="submit">Crear administrador</button>
+      </form>
+      <div id="mensaje-admin"></div>
+    </section>
+    <section id="gestion-empleados">
+      <h2>Crear empleado y asignar rol</h2>
+      <form id="form-crear-empleado">
+        <label for="nombre-empleado">Nombre:</label>
+        <input type="text" id="nombre-empleado" name="nombre" required>
+
+        <label for="correo-empleado">Correo electrónico:</label>
+        <input type="email" id="correo-empleado" name="correo" required>
+
+        <label for="rol-empleado">Rol:</label>
+        <select id="rol-empleado" name="rol" required>
+          <option value="limpieza">Limpieza</option>
+          <option value="cliente">Cliente</option>
+          <!-- Puedes agregar más roles aquí -->
+        </select>
+
+        <button type="submit">Crear empleado</button>
+      </form>
+      <div id="mensaje-empleado"></div>
     </section>
   </div>
   <script>
-    // Protección básica en frontend (solo ejemplo, siempre validar en backend)
+    // Protección básica en frontend (siempre validar en backend)
     const rol = localStorage.getItem('rol');
     if (rol !== 'admin' && rol !== 'administrador') {
       alert('Acceso solo para administradores');
       window.location.href = "index.html";
     }
 
-    // Ejemplo de cómo cargar usuarios (ajusta la URL a tu backend)
+    // Agrega esto en tu script, después de cargarUsuarios y antes de la definición de funciones
+    let usuariosFiltrados = [];
+
+    function filtrarUsuarios() {
+      const texto = document.getElementById('busqueda-usuario').value.toLowerCase();
+      const rol = document.getElementById('filtro-rol').value;
+      usuariosFiltrados = usuarios.filter(usuario => {
+        const coincideTexto =
+          usuario.nombre.toLowerCase().includes(texto) ||
+          usuario.correo.toLowerCase().includes(texto);
+        const coincideRol = !rol || usuario.rol === rol;
+        return coincideTexto && coincideRol;
+      });
+      renderizarUsuarios(usuariosFiltrados);
+    }
+
+    // Modifica cargarUsuarios para guardar la lista original y usar renderizarUsuarios
+    let usuarios = [];
     async function cargarUsuarios() {
       const resp = await fetch('http://localhost:3000/api/usuarios', {
         headers: {
           'Authorization': 'Bearer ' + localStorage.getItem('token')
         }
       });
-      const usuarios = await resp.json();
+      usuarios = await resp.json();
+      renderizarUsuarios(usuarios);
+    }
+
+    function renderizarUsuarios(lista) {
       const tbody = document.getElementById('usuarios-tbody');
       tbody.innerHTML = '';
-      usuarios.forEach(usuario => {
+      lista.forEach(usuario => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td>${usuario.id}</td>
@@ -72,8 +151,9 @@
           <td>${usuario.correo}</td>
           <td>${usuario.rol}</td>
           <td>
-            <button onclick="editarUsuario(${usuario.id})">Editar</button>
+            <button onclick="editarUsuario(${usuario.id}, '${usuario.nombre}', '${usuario.correo}')">Editar</button>
             <button onclick="eliminarUsuario(${usuario.id})">Eliminar</button>
+            <button onclick="abrirModalRestablecer(${usuario.id})">Restablecer contraseña</button>
           </td>
         `;
         tbody.appendChild(tr);
@@ -84,15 +164,195 @@
     cargarUsuarios();
 
     // Funciones vacías para editar/eliminar (puedes implementarlas después)
-    function editarUsuario(id) {
-      alert('Función editar usuario ' + id);
+    function editarUsuario(id, nombre, correo) {
+      document.getElementById('editar-usuario-id').value = id;
+      document.getElementById('editar-nombre').value = nombre;
+      document.getElementById('editar-correo').value = correo;
+      document.getElementById('modal-editar-usuario').style.display = 'block';
     }
+
     function eliminarUsuario(id) {
       if (confirm('¿Seguro que deseas eliminar este usuario?')) {
-        // Aquí iría la lógica para eliminar el usuario
-        alert('Usuario eliminado (implementa la lógica)');
+        fetch('http://localhost:3000/api/autenticacion/eliminar-usuario', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id })
+        })
+        .then(res => res.json())
+        .then(datos => {
+          if (datos.mensaje) {
+            alert(datos.mensaje);
+            cargarUsuarios(); // Recarga la tabla
+          } else {
+            alert(datos.error || 'Error al eliminar usuario');
+          }
+        });
       }
     }
+
+    document.getElementById('cerrar-modal-editar').onclick = function() {
+      document.getElementById('modal-editar-usuario').style.display = 'none';
+    };
+
+    document.getElementById('form-crear-admin').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const nombre = document.getElementById('nombre-admin').value;
+      const correo_electronico = document.getElementById('correo-admin').value;
+      const contrasena = prompt('Ingrese una contraseña para el nuevo administrador:');
+      const llave = document.getElementById('llave-admin').value;
+      const mensaje = document.getElementById('mensaje-admin');
+
+      const respuesta = await fetch('http://localhost:3000/api/autenticacion/crear-admin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nombre, correo_electronico, contrasena, llave })
+      });
+
+      const datos = await respuesta.json();
+      if (respuesta.ok) {
+        mensaje.textContent = datos.mensaje;
+        mensaje.className = 'aviso exito';
+      } else {
+        mensaje.textContent = datos.error || 'Error al crear administrador';
+        mensaje.className = 'aviso error';
+      }
+    });
+
+    document.getElementById('form-crear-empleado').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const nombre = document.getElementById('nombre-empleado').value;
+      const correo_electronico = document.getElementById('correo-empleado').value;
+      const contrasena = prompt('Ingrese una contraseña para el nuevo empleado:');
+      const rol = document.getElementById('rol-empleado').value;
+      const mensaje = document.getElementById('mensaje-empleado');
+
+      const respuesta = await fetch('http://localhost:3000/api/autenticacion/crear-empleado', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nombre, correo_electronico, contrasena, rol })
+      });
+
+      const datos = await respuesta.json();
+      if (respuesta.ok) {
+        mensaje.textContent = datos.mensaje;
+        mensaje.className = 'aviso exito';
+      } else {
+        mensaje.textContent = datos.error || 'Error al crear empleado';
+        mensaje.className = 'aviso error';
+      }
+    });
+
+    document.getElementById('form-asignar-rol').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const usuario_id = document.getElementById('usuario-id-rol').value;
+      const rol = document.getElementById('nuevo-rol').value;
+      const mensaje = document.getElementById('mensaje-asignar-rol');
+
+      const respuesta = await fetch('http://localhost:3000/api/autenticacion/asignar-rol', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ usuario_id, rol })
+      });
+
+      const datos = await respuesta.json();
+      if (respuesta.ok) {
+        mensaje.textContent = datos.mensaje;
+        mensaje.className = 'aviso exito';
+      } else {
+        mensaje.textContent = datos.error || 'Error al asignar rol';
+        mensaje.className = 'aviso error';
+      }
+    });
+
+    document.getElementById('form-editar-usuario').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const id = document.getElementById('editar-usuario-id').value;
+      const nombre = document.getElementById('editar-nombre').value;
+      const correo_electronico = document.getElementById('editar-correo').value;
+      const mensaje = document.getElementById('mensaje-editar-usuario');
+
+      const respuesta = await fetch('http://localhost:3000/api/autenticacion/editar-usuario', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, nombre, correo_electronico })
+      });
+
+      const datos = await respuesta.json();
+      if (respuesta.ok) {
+        mensaje.textContent = datos.mensaje;
+        mensaje.className = 'aviso exito';
+        document.getElementById('modal-editar-usuario').style.display = 'none';
+        cargarUsuarios(); // Recarga la tabla
+      } else {
+        mensaje.textContent = datos.error || 'Error al editar usuario';
+        mensaje.className = 'aviso error';
+      }
+    });
+
+    function abrirModalRestablecer(id) {
+      document.getElementById('restablecer-usuario-id').value = id;
+      document.getElementById('modal-restablecer').style.display = 'block';
+    }
+
+    document.getElementById('cerrar-modal-restablecer').onclick = function() {
+      document.getElementById('modal-restablecer').style.display = 'none';
+    };
+
+    document.getElementById('form-restablecer').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const id = document.getElementById('restablecer-usuario-id').value;
+      const nueva_contrasena = document.getElementById('nueva-contrasena').value;
+      const mensaje = document.getElementById('mensaje-restablecer');
+
+      const respuesta = await fetch('http://localhost:3000/api/autenticacion/restablecer-contrasena', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, nueva_contrasena })
+      });
+
+      const datos = await respuesta.json();
+      if (respuesta.ok) {
+        mensaje.textContent = datos.mensaje;
+        mensaje.className = 'aviso exito';
+        document.getElementById('modal-restablecer').style.display = 'none';
+      } else {
+        mensaje.textContent = datos.error || 'Error al restablecer contraseña';
+        mensaje.className = 'aviso error';
+      }
+    });
   </script>
+
+  <!-- Agrega el botón "Editar" en cada fila de la tabla de usuarios -->
+  <!-- Ya tienes un botón, ahora agrega el modal para editar usuario al final del body -->
+
+  <div id="modal-editar-usuario" class="modal" style="display:none;">
+    <div class="modal-contenido">
+      <span id="cerrar-modal-editar" style="cursor:pointer;float:right;">&times;</span>
+      <h2>Editar usuario</h2>
+      <form id="form-editar-usuario">
+        <input type="hidden" id="editar-usuario-id">
+        <label for="editar-nombre">Nombre:</label>
+        <input type="text" id="editar-nombre" required>
+        <label for="editar-correo">Correo electrónico:</label>
+        <input type="email" id="editar-correo" required>
+        <button type="submit">Guardar cambios</button>
+      </form>
+      <div id="mensaje-editar-usuario"></div>
+    </div>
+  </div>
+
+  <div id="modal-restablecer" class="modal" style="display:none;">
+    <div class="modal-contenido">
+      <span id="cerrar-modal-restablecer" style="cursor:pointer;float:right;">&times;</span>
+      <h2>Restablecer contraseña</h2>
+      <form id="form-restablecer">
+        <input type="hidden" id="restablecer-usuario-id">
+        <label for="nueva-contrasena">Nueva contraseña:</label>
+        <input type="password" id="nueva-contrasena" required>
+        <button type="submit">Guardar</button>
+      </form>
+      <div id="mensaje-restablecer"></div>
+    </div>
+  </div>
 </body>
 </html>

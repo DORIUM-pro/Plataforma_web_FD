@@ -11,7 +11,8 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(cors());
 
-
+const Bitacora = require('./models/Bitacora');
+Bitacora.sync(); // Esto crea la tabla Bitacora si no existe
 
 // Rutas principales
 app.use('/api/usuarios', require('./rutas/usuarios'));

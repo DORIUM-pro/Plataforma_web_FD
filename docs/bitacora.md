@@ -139,7 +139,37 @@
 - Se documentó el proceso y las buenas prácticas en la bitácora para futuras referencias y trabajo colaborativo.
 
 ---
+
 - Se eliminó la lógica antigua que mostraba el panel de administración según el ID del rol y se dejó solo la validación por nombre de rol ("admin" o "administrador") en el frontend.
 - Se verificó que solo los usuarios con rol de administrador pueden ver y acceder a las funciones administrativas.
 - Se probó el flujo completo de inicio de sesión y acceso a las opciones de administración.
 - El código fue limpiado y documentado para mayor claridad y mantenibilidad.
+
+---
+
+## [Pendiente] Herramientas avanzadas de administración y gestión de roles
+
+- Se identificó la necesidad de una página exclusiva de administración (`admin.html`) accesible solo para usuarios con rol de administrador.
+- El administrador debe poder crear empleados y asignarles roles desde el panel de administración.
+- Para la creación de nuevos administradores, se definió implementar un método seguro basado en una "llave especial" que solo el dueño del sistema o el administrador principal debe conocer.
+- Se acordó que la llave nunca debe estar expuesta en el frontend ni en el repositorio, y su validación debe hacerse únicamente en el backend.
+- Se debe documentar quién tiene la llave y cómo se gestiona, así como el flujo completo de creación de administradores y asignación de roles.
+- Estas tareas quedan pendientes para su desarrollo e implementación en las siguientes sesiones.
+
+---
+
+## [Actualización] Implementación de Bitácora de Acciones (Auditoría)
+
+- Se implementó una bitácora automática para registrar todas las acciones importantes realizadas por usuarios autenticados (crear, editar, eliminar usuarios, asignar roles, restablecer contraseñas, etc.).
+- El modelo `Bitacora` se encuentra en `backend/src/models/Bitacora.js` y se sincroniza automáticamente con la base de datos al iniciar el backend.
+- Cada vez que un usuario realiza una acción relevante, el backend registra:
+    - **usuario_id:** ID del usuario que realizó la acción (obtenido del JWT)
+    - **accion:** Tipo de acción (ejemplo: "Crear empleado", "Eliminar usuario")
+    - **descripcion:** Detalle de la acción realizada
+    - **fecha:** Fecha y hora de la acción
+- El registro en la bitácora se realiza automáticamente en los controladores, después de cada operación importante, usando el middleware de autenticación para identificar al usuario.
+- Se creó una ruta protegida (`GET /api/bitacora`) para consultar los últimos registros de la bitácora desde el frontend.
+- En el panel de administración (`admin.html`), se agregó una sección para visualizar la bitácora en una tabla, permitiendo a los administradores auditar el historial de acciones del sistema.
+- Esta implementación mejora la trazabilidad, la seguridad y la transparencia de todas las operaciones administrativas.
+
+---
