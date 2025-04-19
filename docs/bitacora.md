@@ -227,8 +227,6 @@ El panel de usuario presentaba problemas significativos de visualización y func
 
 ### Código clave implementado:
 
-Se agregaron las siguientes clases CSS para manejar los estados del panel:
-
 ```css
 .panel-usuario {
   position: fixed;
@@ -258,6 +256,7 @@ Se agregaron las siguientes clases CSS para manejar los estados del panel:
     transform: translateX(0);
   }
 }
+```
 
 Resultado:
 Tras implementar estas soluciones, el panel de usuario ahora funciona de manera fluida y consistente en todos los dispositivos. En móviles, se desliza suavemente desde el lado izquierdo y se puede cerrar fácilmente. En escritorio, mantiene su posición fija sin interferir con otros elementos. La experiencia de usuario ha mejorado significativamente, permitiendo una navegación más intuitiva y agradable en la plataforma.
