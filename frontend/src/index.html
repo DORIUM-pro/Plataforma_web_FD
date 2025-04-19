@@ -21,7 +21,7 @@
   <!-- Info de usuario autenticado -->
   <div id="usuario-info" style="display:none;">
     <span id="usuario-nombre"></span>
-    <button id="cerrar-sesion">Cerrar sesión</button>
+    <button id="cerrar-sesion-top" class="btn-cerrar-sesion-rojo">Cerrar sesión</button>
   </div>
 
   <!-- Panel lateral de usuario moderno a la izquierda -->
@@ -238,7 +238,7 @@
     const bienvenida = localStorage.getItem('bienvenida');
     if (bienvenida === '1' && nombre) {
       const mensajeBienvenida = document.getElementById('mensaje-bienvenida');
-      mensajeBienvenida.textContent = `¡Bienvenido, ${nombre}!`;
+      mensajeBienvenida.textContent = `¡Bienvenid@, ${nombre}!`;
       mensajeBienvenida.style.display = 'block';
       setTimeout(() => {
         mensajeBienvenida.style.display = 'none';
@@ -251,6 +251,13 @@
     const usuarioInfo = document.getElementById('usuario-info');
     const usuarioNombre = document.getElementById('usuario-nombre');
     const btnCerrarSesion = document.getElementById('cerrar-sesion');
+    const btnCerrarSesionTop = document.getElementById('cerrar-sesion-top');
+    if (btnCerrarSesionTop) {
+      btnCerrarSesionTop.onclick = function() {
+        localStorage.clear();
+        window.location.href = "index.html";
+      };
+    }
 
     // Lógica robusta para detectar usuario logueado
     function usuarioLogueado(nombre) {

@@ -460,9 +460,10 @@ body {
   position: absolute;
   top: 24px;
   right: 32px;
-  z-index: 101;
-  opacity: 0;
-  pointer-events: none;
+  z-index: 12000;
+  display: flex;
+  align-items: center;
+  gap: 1em;
 }
 #usuario-nombre {
   font-weight: 600;
@@ -712,4 +713,20 @@ body {
   .panel-usuario.abierto .panel-mini {
     display: none !important;
   }
+}
+
+.btn-cerrar-sesion-rojo {
+  background: #e53935;
+  color: #fff;
+  border: none;
+  padding: 0.6em 1.2em;
+  border-radius: 6px;
+  font-size: 1em;
+  font-weight: bold;
+  cursor: pointer;
+  margin-left: 1em;
+  transition: background 0.2s;
+}
+.btn-cerrar-sesion-rojo:hover {
+  background: #b71c1c;
 }
