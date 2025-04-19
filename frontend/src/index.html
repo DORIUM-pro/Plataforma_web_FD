@@ -39,6 +39,7 @@
       <ul>
         <li><a href="perfil.html">Ver perfil</a></li>
         <li><a href="mis-reservas.html">Mis reservas</a></li>
+        <li id="admin-panel" style="display:none;"><a href="admin.html">Panel de administración</a></li>
         <li><a href="logout.html" id="panel-cerrar-sesion">Cerrar sesión</a></li>
       </ul>
     </div>
@@ -168,6 +169,7 @@
     const modalBody = document.getElementById('modal-luna-body');
     const modalCerrar = document.getElementById('modal-cerrar');
     const nombre = localStorage.getItem('nombre');
+    const rolUsuario = localStorage.getItem('rol'); // Declarar solo una vez
     
     // Manejador para botones "Ver más" de las lunas
     document.querySelectorAll('.btn-vermas').forEach(btn => {
@@ -302,11 +304,10 @@
 
     const nombreUsuario = localStorage.getItem('nombre') || 'Invitado';
     const correoUsuario = localStorage.getItem('correo') || 'No disponible';
-    const rolUsuario = localStorage.getItem('rol') || 'No asignado';
 
     if (panelNombre) panelNombre.textContent = nombreUsuario;
     if (panelCorreo) panelCorreo.textContent = correoUsuario;
-    if (panelRol) panelRol.textContent = rolUsuario;
+    if (panelRol) panelRol.textContent = rolUsuario || 'No asignado';
 
     // Mostrar/ocultar panel lateral moderno
     const togglePanelBtn = document.getElementById('toggle-panel-usuario');
@@ -334,6 +335,16 @@
           panelUsuario.classList.add('abierto');
         }
       });
+    }
+
+    const adminPanel = document.getElementById('admin-panel');
+
+    if (adminPanel) {
+      if (rolUsuario && (rolUsuario === 'admin' || rolUsuario === 'administrador')) {
+        adminPanel.style.display = 'block';
+      } else {
+        adminPanel.style.display = 'none';
+      }
     }
   </script>
 </body>
