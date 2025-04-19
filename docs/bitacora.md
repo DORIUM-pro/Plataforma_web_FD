@@ -198,3 +198,67 @@ const sequelize = require('../configuracion/db');
 Con este cambio, el servidor inicia correctamente y el modelo Bitacora funciona como esperado.
 
 ---
+## [Fecha: 18/04/2025] - Solución al problema del panel de usuario en dispositivos móviles
+
+### Descripción del problema:
+El panel de usuario presentaba problemas significativos de visualización y funcionalidad, especialmente en dispositivos móviles:
+
+1. **Posicionamiento incorrecto:** El panel estaba fijado a la izquierda de la pantalla en dispositivos de escritorio, pero este posicionamiento no se adaptaba correctamente a dispositivos móviles, ocupando gran parte de la pantalla o desapareciendo completamente.
+
+2. **Superposición con otros elementos:** En pantallas pequeñas, el panel se superponía con otros elementos de la interfaz, como el logo y el cuadro de login/registro, dificultando la interacción con estos elementos.
+
+3. **Dificultad para ocultar/mostrar:** El mecanismo para ocultar y mostrar el panel no funcionaba de manera fluida en dispositivos móviles, lo que afectaba negativamente la experiencia del usuario.
+
+4. **Inconsistencia en el diseño responsivo:** El panel no se ajustaba adecuadamente a diferentes tamaños de pantalla, resultando en una experiencia de usuario inconsistente entre dispositivos.
+
+### Solución implementada:
+
+1. **Rediseño del panel:** Se modificó la estructura HTML y CSS del panel para hacerlo más flexible y adaptable a diferentes tamaños de pantalla.
+
+2. **Implementación de un sistema de deslizamiento:** Se creó un mecanismo de deslizamiento suave para mostrar y ocultar el panel en dispositivos móviles, utilizando CSS transitions y JavaScript.
+
+3. **Ajuste del posicionamiento:** Se cambió el posicionamiento del panel a fixed y se ajustó su ancho y altura para ocupar toda la altura de la pantalla en dispositivos móviles, pero solo una parte en escritorio.
+
+4. **Mejora de la visibilidad:** Se agregó un fondo semi-transparente al panel cuando está abierto en móviles para mejorar la legibilidad y separarlo visualmente del contenido principal.
+
+5. **Optimización de interacciones:** Se mejoró la detección de clics fuera del panel para cerrarlo automáticamente en dispositivos móviles, mejorando la usabilidad.
+
+6. **Ajustes de diseño responsivo:** Se utilizaron media queries para ajustar el comportamiento y apariencia del panel según el tamaño de la pantalla.
+
+### Código clave implementado:
+
+Se agregaron las siguientes clases CSS para manejar los estados del panel:
+
+```css
+.panel-usuario {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 250px;
+  transform: translateX(-250px);
+  transition: transform 0.3s ease-in-out;
+}
+
+.panel-usuario.abierto {
+  transform: translateX(0);
+}
+
+.panel-usuario.cerrado {
+  transform: translateX(-240px);
+}
+
+@media (max-width: 768px) {
+  .panel-usuario {
+    width: 100%;
+    transform: translateX(-100%);
+  }
+  
+  .panel-usuario.abierto {
+    transform: translateX(0);
+  }
+}
+
+Resultado:
+Tras implementar estas soluciones, el panel de usuario ahora funciona de manera fluida y consistente en todos los dispositivos. En móviles, se desliza suavemente desde el lado izquierdo y se puede cerrar fácilmente. En escritorio, mantiene su posición fija sin interferir con otros elementos. La experiencia de usuario ha mejorado significativamente, permitiendo una navegación más intuitiva y agradable en la plataforma.
+Esta solución no solo resolvió los problemas inmediatos, sino que también estableció una base sólida para futuras mejoras y expansiones del panel de usuario.

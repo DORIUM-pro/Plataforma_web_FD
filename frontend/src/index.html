@@ -6,13 +6,14 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div id="mensaje-bienvenida" style="display:none;"></div>
   <div class="logo-header">
     <a href="index.html">
       <img src="img/logo.png" alt="Frijolitos Dormilones" class="logo-img">
     </a>
   </div>
   <!-- Barra de login/registro -->
-  <div class="navbar-derecha" id="navbar-derecha">
+  <div class="cuadro-login" id="navbar-derecha">
     <a href="login.html" class="btn-login">Iniciar sesión</a>
     <a href="registro.html" class="btn-registro">Registrarse</a>
   </div>
@@ -23,21 +24,30 @@
     <button id="cerrar-sesion">Cerrar sesión</button>
   </div>
 
-  <div id="admin-panel" style="display:none;">
-    <!-- Opciones de administración aquí -->
-    <ul>
-      <li><a href="admin.html">Gestión de usuarios</a></li>
-      <li><a href="reservas-admin.html">Gestión de reservas</a></li>
-      <li><a href="reportes.html">Ver reportes</a></li>
-    </ul>
-  </div>
-  <div id="cliente-panel">
-    <h3>Mi espacio</h3>
-    <ul>
-      <li><a href="mis-reservas.html">Mis reservas</a></li>
-      <li><a href="perfil.html">Mi perfil</a></li>
-    </ul>
-  </div>
+  <!-- Panel lateral de usuario moderno a la izquierda -->
+  <aside id="panel-usuario" class="panel-usuario abierto">
+    <button id="toggle-panel-usuario" class="toggle-panel" aria-label="Ocultar panel">
+      <span id="flecha-panel">&#x25C0;</span>
+    </button>
+    <div class="panel-contenido">
+      <h3>Mi cuenta</h3>
+      <div id="usuario-detalles">
+        <p><strong>Nombre:</strong> <span id="panel-nombre"></span></p>
+        <p><strong>Correo:</strong> <span id="panel-correo"></span></p>
+        <p><strong>Rol:</strong> <span id="panel-rol"></span></p>
+      </div>
+      <ul>
+        <li><a href="perfil.html">Ver perfil</a></li>
+        <li><a href="mis-reservas.html">Mis reservas</a></li>
+        <li><a href="logout.html" id="panel-cerrar-sesion">Cerrar sesión</a></li>
+      </ul>
+    </div>
+    <div id="panel-mini" class="panel-mini" tabindex="0" aria-label="Mostrar panel de usuario">
+      <img class="icono-perfil" src="img/perfil.png" alt="Foto de perfil">
+      <span class="texto-mini">Mi perfil</span>
+      <span class="flecha-mini">&#x25B6;</span>
+    </div>
+  </aside>
 
   <header id="hero">
     <div class="hero-overlay">
@@ -272,6 +282,58 @@
         }
       }
     });
+
+    // Panel lateral de usuario: mostrar datos
+    const panelNombre = document.getElementById('panel-nombre');
+    const panelCorreo = document.getElementById('panel-correo');
+    const panelRol = document.getElementById('panel-rol');
+
+    const nombreUsuario = localStorage.getItem('nombre') || 'Invitado';
+    const correoUsuario = localStorage.getItem('correo') || 'No disponible';
+    const rolUsuario = localStorage.getItem('rol') || 'No asignado';
+
+    if (panelNombre) panelNombre.textContent = nombreUsuario;
+    if (panelCorreo) panelCorreo.textContent = correoUsuario;
+    if (panelRol) panelRol.textContent = rolUsuario;
+
+    // Cerrar sesión desde el panel lateral
+    const panelCerrarSesion = document.getElementById('panel-cerrar-sesion');
+    if (panelCerrarSesion) {
+      panelCerrarSesion.onclick = function(e) {
+        e.preventDefault();
+        localStorage.clear();
+        window.location.href = "index.html";
+      };
+    }
+
+    // Mostrar/ocultar panel lateral moderno
+    const panelUsuario = document.getElementById('panel-usuario');
+    const togglePanelBtn = document.getElementById('toggle-panel-usuario');
+    const panelMini = document.getElementById('panel-mini');
+    if (togglePanelBtn && panelUsuario) {
+      togglePanelBtn.onclick = function() {
+        if (panelUsuario.classList.contains('abierto')) {
+          panelUsuario.classList.remove('abierto');
+          panelUsuario.classList.add('cerrado');
+        } else {
+          panelUsuario.classList.remove('cerrado');
+          panelUsuario.classList.add('abierto');
+        }
+      };
+    }
+    if (panelMini && panelUsuario) {
+      panelMini.onclick = function() {
+        panelUsuario.classList.remove('cerrado');
+        panelUsuario.classList.add('abierto');
+      };
+      // Accesibilidad: permitir abrir con Enter/Espacio
+      panelMini.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          panelUsuario.classList.remove('cerrado');
+          panelUsuario.classList.add('abierto');
+        }
+      });
+    }
   </script>
 </body>
 </html>
