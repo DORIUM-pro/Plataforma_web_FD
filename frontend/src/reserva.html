@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Reserva | Frijolitos Dormilones</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Formulario de Reserva</h1>
+    <form id="form-reserva">
+      <label for="nombre">Nombre:</label>
+      <input type="text" id="nombre" name="nombre" required>
+
+      <label for="correo">Correo electrónico:</label>
+      <input type="email" id="correo" name="correo" required>
+
+      <label for="fecha-entrada">Fecha de entrada:</label>
+      <input type="date" id="fecha-entrada" name="fecha_entrada" required>
+
+      <label for="fecha-salida">Fecha de salida:</label>
+      <input type="date" id="fecha-salida" name="fecha_salida" required>
+
+      <label for="tipo-habitacion">Tipo de habitación:</label>
+      <select id="tipo-habitacion" name="tipo_habitacion" required>
+        <option value="">Selecciona una opción</option>
+        <option value="moon">Luna Moon</option>
+        <option value="sky">Luna Sky</option>
+        <option value="forest">Luna Forest</option>
+      </select>
+
+      <button type="submit">Reservar</button>
+    </form>
+    <div id="mensaje-reserva"></div>
+    <a href="index.html" class="btn-volver">Volver al inicio</a>
+  </div>
+
+  <script>
+    // Ejemplo de manejo básico del formulario (puedes adaptarlo a tu backend)
+    document.getElementById('form-reserva').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const mensaje = document.getElementById('mensaje-reserva');
+      mensaje.textContent = "Procesando reserva...";
+      mensaje.className = "";
+
+      // Recoge los datos del formulario
+      const datos = {
+        nombre: document.getElementById('nombre').value,
+        correo: document.getElementById('correo').value,
+        fecha_entrada: document.getElementById('fecha-entrada').value,
+        fecha_salida: document.getElementById('fecha-salida').value,
+        tipo_habitacion: document.getElementById('tipo-habitacion').value
+      };
+
+      try {
+        // Cambia la URL por la de tu backend si es necesario
+        const resp = await fetch('http://localhost:3000/api/reservas', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(datos)
+        });
+        const resultado = await resp.json();
+        if (resp.ok) {
+          mensaje.textContent = "¡Reserva realizada con éxito!";
+          mensaje.className = "exito";
+          document.getElementById('form-reserva').reset();
+        } else {
+          mensaje.textContent = resultado.error || "Error al realizar la reserva.";
+          mensaje.className = "error";
+        }
+      } catch (error) {
+        mensaje.textContent = "Error de conexión o del servidor.";
+        mensaje.className = "error";
+      }
+    });
+  </script>
+</body>
+</html>
