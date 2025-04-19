@@ -287,3 +287,33 @@ Resultado:
 Tras aplicar la solución, los botones de "Iniciar sesión" y "Registrarse" permanecen visibles para usuarios no autenticados y solo se ocultan cuando realmente hay un usuario logueado.
 La experiencia de usuario es ahora consistente y predecible, y se evita el error de ocultar opciones de acceso por valores residuales en el almacenamiento local.
 
+[Fecha: 19/04/2025] - Mejoras en visibilidad y lógica del panel de usuario
+
+Descripción del cambio:
+Se implementaron ajustes para que el panel lateral de usuario solo sea visible cuando el usuario está autenticado. Además, se modificó su posición para evitar que tape el logo en la parte superior izquierda de la página.
+
+Motivación:
+- Mejorar la experiencia de usuario evitando confusión visual y accesibilidad.
+- Garantizar que solo los usuarios autenticados puedan ver y acceder al panel lateral de usuario.
+- Mantener la identidad visual de la plataforma, asegurando que el logo siempre sea visible.
+
+Cambios realizados:
+
+1. Visibilidad condicional del panel lateral:
+   - El panel lateral (`#panel-usuario`) ahora está oculto por defecto (`display: none;` en CSS y en el atributo `style` del HTML).
+   - En el JavaScript principal, se agregó lógica para mostrar el panel solo si la función `usuarioLogueado(nombre)` retorna `true`.
+   - Si el usuario no está autenticado, el panel permanece oculto y solo se muestran los botones de "Iniciar sesión" y "Registrarse".
+
+2. Ajuste de posición del panel lateral:
+   - Se modificó la propiedad `top` en el CSS del panel lateral para que comience más abajo (`top: 140px;`), dejando espacio suficiente para el logo y evitando que lo tape en cualquier resolución.
+
+3. Sincronización de botones y panel:
+   - Se verificó que el botón "Cerrar sesión" esté disponible tanto en el panel lateral como en la parte superior derecha, y que ambos cierren la sesión correctamente.
+   - Se mantuvo la lógica robusta para mostrar/ocultar los elementos de autenticación según el estado real del usuario.
+
+Resultado:
+- El panel lateral de usuario solo aparece cuando el usuario está autenticado, mejorando la seguridad y la claridad de la interfaz.
+- El logo de la plataforma permanece siempre visible y accesible.
+- Los botones de acceso y cierre de sesión funcionan de manera consistente y predecible.
+- La experiencia de usuario es más intuitiva y profesional.
+

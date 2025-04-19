@@ -24,8 +24,8 @@
     <button id="cerrar-sesion-top" class="btn-cerrar-sesion-rojo">Cerrar sesión</button>
   </div>
 
-  <!-- Panel lateral de usuario moderno a la izquierda -->
-  <aside id="panel-usuario" class="panel-usuario abierto">
+  <!-- Panel lateral de usuario moderno a la izquierda (oculto por defecto) -->
+  <aside id="panel-usuario" class="panel-usuario abierto" style="display:none;">
     <button id="toggle-panel-usuario" class="toggle-panel" aria-label="Ocultar panel">
       <span id="flecha-panel">&#x25C0;</span>
     </button>
@@ -252,14 +252,8 @@
     const usuarioNombre = document.getElementById('usuario-nombre');
     const btnCerrarSesion = document.getElementById('cerrar-sesion');
     const btnCerrarSesionTop = document.getElementById('cerrar-sesion-top');
-    if (btnCerrarSesionTop) {
-      btnCerrarSesionTop.onclick = function() {
-        localStorage.clear();
-        window.location.href = "index.html";
-      };
-    }
+    const panelUsuario = document.getElementById('panel-usuario');
 
-    // Lógica robusta para detectar usuario logueado
     function usuarioLogueado(nombre) {
       return (
         nombre &&
@@ -270,36 +264,36 @@
       );
     }
 
+    // Mostrar/ocultar panel lateral según login
     if (usuarioLogueado(nombre)) {
+      if (panelUsuario) panelUsuario.style.display = 'block';
       if (navbar) navbar.style.display = 'none';
       if (usuarioInfo) {
-        usuarioInfo.style.display = 'block';
+        usuarioInfo.style.display = 'flex';
         usuarioNombre.textContent = `¡Hola, ${nombre}!`;
       }
     } else {
-      if (navbar) navbar.style.display = 'block';
+      if (panelUsuario) panelUsuario.style.display = 'none';
+      if (navbar) navbar.style.display = 'flex';
       if (usuarioInfo) usuarioInfo.style.display = 'none';
     }
 
-    // Cerrar sesión
-    if (btnCerrarSesion) {
-      btnCerrarSesion.onclick = function() {
+    // Cerrar sesión (superior)
+    if (btnCerrarSesionTop) {
+      btnCerrarSesionTop.onclick = function() {
         localStorage.clear();
         window.location.href = "index.html";
       };
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-      const rol = localStorage.getItem('rol');
-      const adminPanel = document.getElementById('admin-panel');
-      if (adminPanel) {
-        if (rol === 'admin' || rol === 'administrador') {
-          adminPanel.style.display = 'block';
-        } else {
-          adminPanel.style.display = 'none';
-        }
-      }
-    });
+    // Cerrar sesión desde el panel lateral
+    if (btnCerrarSesion) {
+      btnCerrarSesion.onclick = function(e) {
+        e.preventDefault();
+        localStorage.clear();
+        window.location.href = "index.html";
+      };
+    }
 
     // Panel lateral de usuario: mostrar datos
     const panelNombre = document.getElementById('panel-nombre');
@@ -314,18 +308,7 @@
     if (panelCorreo) panelCorreo.textContent = correoUsuario;
     if (panelRol) panelRol.textContent = rolUsuario;
 
-    // Cerrar sesión desde el panel lateral
-    const panelCerrarSesion = document.getElementById('panel-cerrar-sesion');
-    if (panelCerrarSesion) {
-      panelCerrarSesion.onclick = function(e) {
-        e.preventDefault();
-        localStorage.clear();
-        window.location.href = "index.html";
-      };
-    }
-
     // Mostrar/ocultar panel lateral moderno
-    const panelUsuario = document.getElementById('panel-usuario');
     const togglePanelBtn = document.getElementById('toggle-panel-usuario');
     const panelMini = document.getElementById('panel-mini');
     if (togglePanelBtn && panelUsuario) {
