@@ -21,6 +21,14 @@
         <li><a href="#gestion-empleados">Crear empleado</a></li>
       </ul>
     </nav>
+
+    <!-- Botón de acceso rápido a la bitácora -->
+    <section id="acceso-bitacora" style="margin-bottom: 2em;">
+      <button onclick="irABitacora()">
+        Ver Bitácora de Acciones
+      </button>
+    </section>
+
     <section id="usuarios">
       <h2>Gestión de usuarios</h2>
       <div id="filtros-usuarios" style="margin-bottom: 1em;">
@@ -104,7 +112,7 @@
       <div id="mensaje-empleado"></div>
     </section>
 
-    <!-- NUEVA SECCIÓN: Bitácora de acciones -->
+    <!-- SECCIÓN: Bitácora de acciones -->
     <section id="bitacora">
       <h2>Bitácora de acciones</h2>
       <table>
@@ -370,6 +378,37 @@
 
     // Llama a la función al cargar la página
     cargarBitacora();
+
+    function irABitacora() {
+      document.getElementById('bitacora').scrollIntoView({behavior: 'smooth'});
+      document.getElementById('acceso-bitacora').style.display = 'none';
+    }
+
+    // Opcional: Si el usuario hace scroll hacia arriba, vuelve a mostrar el botón
+    window.addEventListener('scroll', function() {
+      const bitacoraSection = document.getElementById('bitacora');
+      const accesoBitacora = document.getElementById('acceso-bitacora');
+      const rect = bitacoraSection.getBoundingClientRect();
+      // Solo muestra el botón si la bitácora está fuera de la vista superior
+      if (rect.top > 100) {
+        accesoBitacora.style.display = 'block';
+      } else {
+        accesoBitacora.style.display = 'none';
+      }
+    });
+
+    // Mostrar/ocultar el botón solo si la bitácora NO está visible en pantalla
+    window.addEventListener('scroll', function() {
+      const bitacoraSection = document.getElementById('bitacora');
+      const accesoBitacora = document.getElementById('acceso-bitacora');
+      const rect = bitacoraSection.getBoundingClientRect();
+      // Solo muestra el botón si la bitácora está completamente fuera de la vista
+      if (rect.bottom < 0 || rect.top > window.innerHeight) {
+        accesoBitacora.style.display = 'block';
+      } else {
+        accesoBitacora.style.display = 'none';
+      }
+    });
   </script>
 
   <!-- Agrega el botón "Editar" en cada fila de la tabla de usuarios -->
