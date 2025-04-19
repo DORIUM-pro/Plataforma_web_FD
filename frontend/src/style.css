@@ -556,9 +556,8 @@ body {
 /* ===== Panel de usuario moderno y ocultable ===== */
 .panel-usuario {
   position: fixed;
-  top: 90px;
+  top: 140px; /* Ajusta este valor según el alto de tu logo */
   left: 0;
-  right: unset;
   width: 270px;
   background: #fff;
   border-right: 2px solid #3686da;
