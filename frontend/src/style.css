@@ -734,3 +734,14 @@ body {
 .btn-cerrar-sesion-rojo:hover {
   background: #b71c1c;
 }
+
+.foto-perfil-panel {
+  display: block;
+  margin: 0 auto 1em auto;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 2px 8px #0002;
+  background: #fff;
+}
