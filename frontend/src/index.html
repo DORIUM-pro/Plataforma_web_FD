@@ -12,14 +12,14 @@
       <img src="img/logo.png" alt="Frijolitos Dormilones" class="logo-img">
     </a>
   </div>
-  <!-- Barra de login/registro -->
+  <!-- Barra de login/registro SIEMPRE visible (el JS la oculta si hay usuario logueado) -->
   <div class="cuadro-login" id="navbar-derecha">
     <a href="login.html" class="btn-login">Iniciar sesión</a>
     <a href="registro.html" class="btn-registro">Registrarse</a>
   </div>
 
   <!-- Info de usuario autenticado -->
-  <div id="usuario-info">
+  <div id="usuario-info" style="display:none;">
     <span id="usuario-nombre"></span>
     <button id="cerrar-sesion">Cerrar sesión</button>
   </div>
@@ -252,7 +252,18 @@
     const usuarioNombre = document.getElementById('usuario-nombre');
     const btnCerrarSesion = document.getElementById('cerrar-sesion');
 
-    if (nombre) {
+    // Lógica robusta para detectar usuario logueado
+    function usuarioLogueado(nombre) {
+      return (
+        nombre &&
+        typeof nombre === "string" &&
+        nombre.trim() !== "" &&
+        nombre !== "null" &&
+        nombre !== "undefined"
+      );
+    }
+
+    if (usuarioLogueado(nombre)) {
       if (navbar) navbar.style.display = 'none';
       if (usuarioInfo) {
         usuarioInfo.style.display = 'block';

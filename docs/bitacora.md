@@ -262,3 +262,28 @@ Se agregaron las siguientes clases CSS para manejar los estados del panel:
 Resultado:
 Tras implementar estas soluciones, el panel de usuario ahora funciona de manera fluida y consistente en todos los dispositivos. En móviles, se desliza suavemente desde el lado izquierdo y se puede cerrar fácilmente. En escritorio, mantiene su posición fija sin interferir con otros elementos. La experiencia de usuario ha mejorado significativamente, permitiendo una navegación más intuitiva y agradable en la plataforma.
 Esta solución no solo resolvió los problemas inmediatos, sino que también estableció una base sólida para futuras mejoras y expansiones del panel de usuario.
+
+[Fecha: 19/04/2025] - Incidente: Desaparición de botones "Iniciar sesión" y "Registrarse" al recargar la página
+Descripción del problema:
+Al implementar el panel lateral de usuario, se detectó que los botones "Iniciar sesión" y "Registrarse" desaparecían automáticamente tras recargar la página, incluso cuando ningún usuario había iniciado sesión. Inicialmente, los botones eran visibles por un instante, pero luego se ocultaban, generando confusión en la experiencia de usuario.
+
+Diagnóstico:
+El comportamiento estaba controlado por un bloque de JavaScript que ocultaba o mostraba los botones según la existencia de un valor en localStorage bajo la clave nombre.
+Si localStorage.nombre existía (aunque fuera una cadena vacía, "null" o "undefined"), el script ocultaba los botones, interpretando erróneamente que había un usuario autenticado.
+El problema persistía incluso después de cerrar sesión, si el valor de nombre no se eliminaba correctamente del almacenamiento local.
+Solución implementada:
+Limpieza del almacenamiento local:
+Se ejecutó localStorage.clear() en la consola del navegador para eliminar cualquier valor residual de sesiones anteriores, restaurando el comportamiento esperado de los botones.
+
+Mejora de la lógica de detección de usuario autenticado:
+Se reemplazó la condición original por una función robusta que verifica que el valor de nombre:
+
+No sea null, undefined, vacío, "null" ni "undefined".
+Sea realmente un nombre válido y no un valor residual.
+Validación adicional:
+Se recomendó limpiar el localStorage al cerrar sesión y evitar guardar valores vacíos o inválidos al iniciar sesión.
+
+Resultado:
+Tras aplicar la solución, los botones de "Iniciar sesión" y "Registrarse" permanecen visibles para usuarios no autenticados y solo se ocultan cuando realmente hay un usuario logueado.
+La experiencia de usuario es ahora consistente y predecible, y se evita el error de ocultar opciones de acceso por valores residuales en el almacenamiento local.
+

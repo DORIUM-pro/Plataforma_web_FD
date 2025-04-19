@@ -37,6 +37,7 @@
     padding: 1em 0.5em;
     gap: 0.7em;
     box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    z-index: 11000; /* Mantén el z-index alto en móvil también */
   }
   .btn-login,
   .btn-registro {
@@ -487,7 +488,7 @@ body {
   position: absolute;
   top: 24px;
   right: 32px;
-  z-index: 101;
+  z-index: 11000; /* Aumenta el z-index para estar por encima del panel y mini-panel */
   display: flex;
   gap: 1em;
   justify-content: center;
@@ -625,7 +626,7 @@ body {
   align-items: center;
   justify-content: center;
   background: #fff;
-  z-index: 99999;
+  z-index: 9999;
   min-height: 100px;
   min-width: 100px;
   position: fixed;
