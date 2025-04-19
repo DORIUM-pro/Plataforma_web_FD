@@ -103,7 +103,27 @@
       </form>
       <div id="mensaje-empleado"></div>
     </section>
+
+    <!-- NUEVA SECCIÓN: Bitácora de acciones -->
+    <section id="bitacora">
+      <h2>Bitácora de acciones</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>ID Usuario</th>
+            <th>Acción</th>
+            <th>Descripción</th>
+            <th>Fecha</th>
+          </tr>
+        </thead>
+        <tbody id="tabla-bitacora">
+          <!-- Aquí se insertarán los registros -->
+        </tbody>
+      </table>
+      <div id="mensaje-bitacora"></div>
+    </section>
   </div>
+
   <script>
     // Protección básica en frontend (siempre validar en backend)
     const rol = localStorage.getItem('rol');
@@ -320,6 +340,36 @@
         mensaje.className = 'aviso error';
       }
     });
+
+    // FUNCIÓN PARA CARGAR LA BITÁCORA
+    async function cargarBitacora() {
+      try {
+        const resp = await fetch('http://localhost:3000/api/bitacora', {
+          headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+          }
+        });
+        if (!resp.ok) throw new Error('No se pudo cargar la bitácora');
+        const data = await resp.json();
+        const tabla = document.getElementById('tabla-bitacora');
+        tabla.innerHTML = '';
+        data.forEach(registro => {
+          const fila = document.createElement('tr');
+          fila.innerHTML = `
+            <td>${registro.usuario_id}</td>
+            <td>${registro.accion}</td>
+            <td>${registro.descripcion}</td>
+            <td>${new Date(registro.fecha).toLocaleString()}</td>
+          `;
+          tabla.appendChild(fila);
+        });
+      } catch (error) {
+        document.getElementById('mensaje-bitacora').textContent = error.message;
+      }
+    }
+
+    // Llama a la función al cargar la página
+    cargarBitacora();
   </script>
 
   <!-- Agrega el botón "Editar" en cada fila de la tabla de usuarios -->
