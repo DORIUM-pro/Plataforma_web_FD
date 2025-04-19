@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db');
+const sequelize = require('../configuracion/db'); // <- Ruta corregida
 
 const Bitacora = sequelize.define('Bitacora', {
   usuario_id: { type: DataTypes.INTEGER, allowNull: false },
