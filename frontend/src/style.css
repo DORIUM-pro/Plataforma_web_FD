@@ -287,7 +287,7 @@ body {
   margin: 10px 0 8px 0;
   font-size: 1.27rem;
   font-family: var(--fuente-titulo);
-  color: var(--negro);
+  color: var (--negro);
 }
 
 .luna-contenido p {
@@ -560,12 +560,12 @@ body {
 
 /* ===== Panel de usuario moderno y ocultable ===== */
 .panel-usuario {
+  background: linear-gradient(135deg, #e3f0ff 0%, #b3d1fa 100%);
   position: fixed;
-  top: 140px; /* Ajusta este valor según el alto de tu logo */
+  top: 140px;
   left: 0;
   width: 270px;
-  background: #fff;
-  border-right: 2px solid #3686da;
+  border-right: 5px solid #fff; /* Bordes blancos más gruesos */
   border-left: none;
   box-shadow: 2px 0 12px rgba(54,134,218,0.08);
   padding: 1.5em 1em 1em 1em;
@@ -573,6 +573,7 @@ body {
   min-height: 320px;
   display: flex;
   flex-direction: column;
+  border-radius: 24px; /* Bordes suaves */
 }
 
 .panel-usuario .toggle-panel {
@@ -694,7 +695,7 @@ body {
     width: 100%;
     border-left: none;
     box-shadow: none;
-    border-top: 2px solid #3686da;
+    border-top: 2px solid #fff; /* Cambia aquí a blanco */
     margin-top: 2em;
     min-height: unset;
     transform: none !important;
@@ -738,8 +739,8 @@ body {
 .foto-perfil-panel {
   display: block;
   margin: 0 auto 1em auto;
-  width: 80px;
-  height: 80px;
+  width: 140px;
+  height: 140px;
   border-radius: 50%;
   object-fit: cover;
   box-shadow: 0 2px 8px #0002;

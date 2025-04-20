@@ -43,7 +43,7 @@
       if (respuesta.ok) {
         mensaje.textContent = '¡Login exitoso!';
         mensaje.className = 'aviso exito';
-        localStorage.setItem('usuarioCorreo', email);
+        localStorage.setItem('correo', email);
         localStorage.setItem('nombre', datos.nombre);
         localStorage.setItem('token', datos.token);
         localStorage.setItem('bienvenida', '1');
