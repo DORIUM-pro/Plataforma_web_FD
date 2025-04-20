@@ -337,3 +337,41 @@ Resultado:
 - La experiencia de usuario es más intuitiva y profesional.
 - El código es más limpio y fácil de mantener.
 
+## [Fecha: 20/04/2025] - Mejoras de validación y seguridad en autenticación y restablecimiento de contraseña
+
+### Cambios realizados
+
+- **Funciones de validación centralizadas:**  
+  Se agregaron funciones `validarCorreo` y `validarContrasena` en `backend/src/controladores/autenticacionControlador.js` para validar el formato de correo electrónico y la fortaleza de la contraseña (mínimo 8 caracteres, una mayúscula, una minúscula y un número).
+
+- **Validación en registro de usuario:**  
+  Antes de crear un usuario, se valida que el correo tenga formato correcto y la contraseña cumpla los requisitos de seguridad. Si no, se responde con un error claro.
+
+- **Validación en restablecimiento y cambio de contraseña:**  
+  Antes de permitir el cambio de contraseña (tanto en el flujo de restablecimiento como en el cambio directo), se valida la nueva contraseña usando la función centralizada.
+
+- **No revelar si el correo existe:**  
+  En el endpoint `solicitarRestablecimiento`, la respuesta es siempre la misma, independientemente de si el correo existe o no en la base de datos. Esto evita que un atacante pueda descubrir correos registrados.
+
+- **Mensajes genéricos en frontend:**  
+  El frontend muestra siempre el mismo mensaje tras solicitar el restablecimiento:  
+  `"Si el correo existe, se enviará un enlace de restablecimiento."`
+
+- **Expiración y limpieza de tokens:**  
+  Se asegura que el token de restablecimiento solo sea válido durante 30 minutos y se elimina tras su uso exitoso.
+
+- **Validación de correo en solicitud de restablecimiento:**  
+  Se valida el formato del correo antes de procesar la solicitud, devolviendo error si es inválido.
+
+- **Código más robusto y seguro:**  
+  Se revisaron y mejoraron los controladores para evitar fugas de información y asegurar que todas las rutas críticas tengan validaciones adecuadas.
+
+### Resultado
+
+- El sistema ahora es más seguro frente a ataques de enumeración de correos y fuerza bruta.
+- Los usuarios reciben mensajes claros y consistentes, sin exponer información sensible.
+- La fortaleza de las contraseñas está garantizada en todos los flujos.
+- El código es más limpio, centralizando las validaciones y facilitando el mantenimiento futuro.
+
+---
+

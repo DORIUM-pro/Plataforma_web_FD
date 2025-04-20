@@ -30,6 +30,14 @@ const Usuario = sequelize.define('Usuario', {
     type: DataTypes.STRING(100),
     allowNull: false
   },
+  reset_token: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  reset_token_expira: {
+    type: DataTypes.DATE,
+    allowNull: true
+  },
   estado_activo: {
     type: DataTypes.BOOLEAN,
     defaultValue: true

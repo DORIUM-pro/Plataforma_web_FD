@@ -12,7 +12,10 @@ router.post('/crear-admin', auth, autenticacionControlador.crearAdmin);
 router.post('/crear-empleado', auth, autenticacionControlador.crearEmpleado);
 router.post('/asignar-rol', auth, autenticacionControlador.asignarRol);
 router.put('/editar-usuario', auth, autenticacionControlador.editarUsuario);
-router.put('/restablecer-contrasena', auth, autenticacionControlador.restablecerContrasena);
+router.put('/restablecer-contrasena', autenticacionControlador.restablecerContrasena);
 router.delete('/eliminar-usuario', auth, autenticacionControlador.eliminarUsuario);
+
+router.post('/solicitar-restablecimiento', autenticacionControlador.solicitarRestablecimiento);
+router.post('/cambiar-contrasena-con-token', autenticacionControlador.cambiarContrasenaConToken);
 
 module.exports = router;

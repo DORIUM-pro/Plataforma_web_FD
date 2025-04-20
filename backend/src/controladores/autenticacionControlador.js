@@ -6,10 +6,34 @@ const Bitacora = require('../models/Bitacora');
 const Usuario = require('../modelos/Usuario');
 const LoginLog = require('../modelos/RegistroLogin');
 const bcrypt = require('bcrypt');
+const crypto = require('crypto');
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
+  }
+});
+
+function validarCorreo(correo) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo);
+}
+
+function validarContrasena(contrasena) {
+  // Mínimo 8 caracteres, al menos una mayúscula, una minúscula y un número
+  return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/.test(contrasena);
+}
 
 exports.registro = async (req, res) => {
   try {
     const { nombre, correo_electronico, contrasena } = req.body;
+    if (!validarCorreo(correo_electronico)) {
+      return res.status(400).json({ error: 'Correo electrónico no válido' });
+    }
+    if (!validarContrasena(contrasena)) {
+      return res.status(400).json({ error: 'La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número.' });
+    }
     const existe = await Usuario.findOne({ where: { correo_electronico } });
     if (existe) {
       return res.status(400).json({ error: 'El usuario ya existe' });
@@ -30,14 +54,6 @@ exports.registro = async (req, res) => {
     });
 
     // Envío de correo de bienvenida
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-      }
-    });
-
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: correo_electronico,
@@ -219,20 +235,28 @@ exports.asignarRol = async (req, res) => {
 };
 
 exports.editarUsuario = async (req, res) => {
-  const { id, nombre, correo_electronico } = req.body;
-  const usuario = await Usuario.findByPk(id);
+  const { nombre, correo_electronico, password } = req.body; // <-- agrega password aquí
+
+  const usuario = await Usuario.findByPk(req.usuario.id); // Usa el ID del token
   if (!usuario) {
     return res.status(404).json({ error: 'Usuario no encontrado' });
   }
-  usuario.nombre = nombre;
-  usuario.correo_electronico = correo_electronico;
+  if (nombre) usuario.nombre = nombre;
+  if (correo_electronico) usuario.correo_electronico = correo_electronico;
+
+  // Cambiar contraseña si viene en el body
+  if (password && password.trim() !== '') {
+    const hash = await bcrypt.hash(password, 10);
+    usuario.contrasena = hash;
+  }
+
   await usuario.save();
 
   // Bitácora: edición de usuario
   await Bitacora.create({
     usuario_id: req.usuario?.id || 0,
     accion: 'Editar usuario',
-    descripcion: `Usuario con ID ${id} editado`
+    descripcion: `Usuario con ID ${req.usuario.id} editado`
   });
 
   res.json({ mensaje: 'Usuario actualizado correctamente' });
@@ -257,10 +281,13 @@ exports.eliminarUsuario = async (req, res) => {
 };
 
 exports.restablecerContrasena = async (req, res) => {
-  const { id, nuevaContrasena } = req.body;
-  const usuario = await Usuario.findByPk(id);
+  const { correo_electronico, nuevaContrasena } = req.body;
+  const usuario = await Usuario.findOne({ where: { correo_electronico } });
   if (!usuario) {
     return res.status(404).json({ error: 'Usuario no encontrado' });
+  }
+  if (!validarContrasena(nuevaContrasena)) {
+    return res.status(400).json({ error: 'La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número.' });
   }
   const hash = await bcrypt.hash(nuevaContrasena, 10);
   usuario.contrasena = hash;
@@ -268,12 +295,49 @@ exports.restablecerContrasena = async (req, res) => {
 
   // Bitácora: restablecimiento de contraseña
   await Bitacora.create({
-    usuario_id: req.usuario?.id || 0,
+    usuario_id: usuario.id,
     accion: 'Restablecer contraseña',
-    descripcion: `Contraseña restablecida para usuario con ID ${id}`
+    descripcion: `Contraseña restablecida para usuario con correo ${correo_electronico}`
   });
 
   res.json({ mensaje: 'Contraseña restablecida correctamente' });
+};
+
+exports.solicitarRestablecimiento = async (req, res) => {
+  const { correo_electronico } = req.body;
+  if (!validarCorreo(correo_electronico)) {
+    return res.status(400).json({ error: 'Correo electrónico no válido' });
+  }
+  const usuario = await Usuario.findOne({ where: { correo_electronico } });
+
+  if (usuario) {
+    const token = crypto.randomBytes(32).toString('hex');
+    usuario.reset_token = token;
+    usuario.reset_token_expira = Date.now() + 1000 * 60 * 30; // 30 minutos
+    await usuario.save();
+
+    const link = `http://localhost:5500/frontend/src/cambiar-contrasena.html?token=${token}&correo=${correo_electronico}`;
+    await transporter.sendMail({
+      to: correo_electronico,
+      subject: 'Restablece tu contraseña',
+      text: `Haz clic en este enlace para restablecer tu contraseña: ${link}`
+    });
+  }
+  // Siempre responde igual
+  res.json({ mensaje: 'Si el correo existe, se enviará un enlace de restablecimiento.' });
+};
+
+exports.cambiarContrasenaConToken = async (req, res) => {
+  const { correo_electronico, token, nuevaContrasena } = req.body;
+  const usuario = await Usuario.findOne({ where: { correo_electronico, reset_token: token } });
+  if (!usuario || usuario.reset_token_expira < Date.now()) {
+    return res.status(400).json({ error: 'Token inválido o expirado' });
+  }
+  usuario.contrasena = await bcrypt.hash(nuevaContrasena, 10);
+  usuario.reset_token = null;
+  usuario.reset_token_expira = null;
+  await usuario.save();
+  res.json({ mensaje: 'Contraseña cambiada correctamente' });
 };
 
 

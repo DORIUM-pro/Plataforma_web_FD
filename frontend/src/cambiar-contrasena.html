@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Cambiar contraseña | Frijolitos Dormilones</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="restablecer-container">
+    <h2>Cambiar contraseña</h2>
+    <form id="cambiarContrasenaForm">
+      <label for="nuevaContrasena">Nueva contraseña:</label>
+      <input type="password" id="nuevaContrasena" required>
+      <button type="submit">Cambiar contraseña</button>
+      <div id="mensaje"></div>
+    </form>
+  </div>
+  <script>
+    // Obtiene token y correo de la URL
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('token');
+    const correo = params.get('correo');
+
+    document.getElementById('cambiarContrasenaForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const nuevaContrasena = document.getElementById('nuevaContrasena').value.trim();
+      const mensaje = document.getElementById('mensaje');
+      try {
+        const resp = await fetch('http://localhost:3000/api/autenticacion/cambiar-contrasena-con-token', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ correo_electronico: correo, token, nuevaContrasena })
+        });
+        const data = await resp.json();
+        if (resp.ok) {
+          mensaje.textContent = '¡Contraseña cambiada correctamente!';
+          mensaje.style.color = 'green';
+        } else {
+          mensaje.textContent = data.error || 'Error al cambiar la contraseña';
+          mensaje.style.color = 'red';
+        }
+      } catch (err) {
+        mensaje.textContent = 'Error de conexión con el servidor';
+        mensaje.style.color = 'red';
+      }
+    });
+  </script>
+</body>
+</html>

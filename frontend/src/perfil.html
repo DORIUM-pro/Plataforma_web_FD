@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Configurar / Ver perfil | Frijolitos Dormilones</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="perfil-container">
+    <h2>Mi perfil</h2>
+    <form id="perfilForm" class="perfil-form">
+      <div class="perfil-foto">
+        <img id="perfil-foto-img" src="img/perfil.png" alt="Foto de perfil" class="foto-perfil-panel">
+        <!-- (Opcional) Botón para cambiar foto en el futuro -->
+      </div>
+      <div class="perfil-campo">
+        <label for="perfil-nombre">Nombre:</label>
+        <input type="text" id="perfil-nombre" name="nombre" required>
+      </div>
+      <div class="perfil-campo">
+        <label for="perfil-correo">Correo:</label>
+        <input type="email" id="perfil-correo" name="correo" required disabled>
+      </div>
+      <div class="perfil-campo">
+        <label for="perfil-password">Nueva contraseña:</label>
+        <input type="password" id="perfil-password" name="password" placeholder="Dejar en blanco para no cambiar">
+      </div>
+      <button type="submit" class="btn-guardar">Guardar cambios</button>
+      <div id="perfil-mensaje" class="perfil-mensaje"></div>
+    </form>
+  </div>
+  <script>
+    // Cargar datos del usuario desde localStorage
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('perfil-nombre').value = localStorage.getItem('nombre') || '';
+      document.getElementById('perfil-correo').value = localStorage.getItem('correo') || '';
+    });
+
+    document.getElementById('perfilForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const nombre = document.getElementById('perfil-nombre').value.trim();
+      const password = document.getElementById('perfil-password') ? document.getElementById('perfil-password').value.trim() : '';
+      const token = localStorage.getItem('token');
+      const mensaje = document.getElementById('perfil-mensaje');
+
+      try {
+        const respuesta = await fetch('http://localhost:3000/api/autenticacion/editar-usuario', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            nombre,
+            ...(password && { password }) // Solo envía password si no está vacío
+          })
+        });
+
+        if (respuesta.ok) {
+          // Actualiza localStorage
+          localStorage.setItem('nombre', nombre);
+          mensaje.textContent = '¡Cambios guardados correctamente!';
+          mensaje.style.color = 'green';
+        } else {
+          const error = await respuesta.json();
+          console.log(error); // <-- Agrega esto
+          mensaje.textContent = error.mensaje || 'Error al guardar cambios en el servidor';
+          mensaje.style.color = 'red';
+        }
+      } catch (err) {
+        mensaje.textContent = 'Error de conexión con el servidor';
+        mensaje.style.color = 'red';
+      }
+      // Limpia el campo de contraseña
+      if (document.getElementById('perfil-password')) {
+        document.getElementById('perfil-password').value = '';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Restablecer contraseña | Frijolitos Dormilones</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="restablecer-container">
+    <h2>Restablecer contraseña</h2>
+    <form id="solicitarRestablecimientoForm">
+      <input type="email" id="correo" required placeholder="Correo electrónico">
+      <button type="submit">Enviar enlace de restablecimiento</button>
+      <div id="mensaje"></div>
+    </form>
+  </div>
+  <script>
+    document.getElementById('solicitarRestablecimientoForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const correo = document.getElementById('correo').value.trim();
+      const mensaje = document.getElementById('mensaje');
+      const resp = await fetch('http://localhost:3000/api/autenticacion/solicitar-restablecimiento', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ correo_electronico: correo })
+      });
+      const data = await resp.json();
+      mensaje.textContent = 'Si el correo existe, se enviará un enlace de restablecimiento.';
+      mensaje.style.color = resp.ok ? 'green' : 'red';
+    });
+  </script>
+</body>
+</html>
