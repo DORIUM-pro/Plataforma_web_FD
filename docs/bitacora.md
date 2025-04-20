@@ -316,3 +316,24 @@ Resultado:
 - Los botones de acceso y cierre de sesión funcionan de manera consistente y predecible.
 - La experiencia de usuario es más intuitiva y profesional.
 
+[Fecha: 19/04/2025] - Mejoras visuales y de experiencia en el panel de usuario
+
+Descripción del cambio:
+- Se actualizó el diseño del panel lateral de usuario para mejorar la experiencia visual y la coherencia con la identidad del glamping.
+- El fondo del panel ahora utiliza un degradado azul muy claro (`linear-gradient(135deg, #e3f0ff 0%, #b3d1fa 100%)`), brindando una apariencia más moderna y agradable.
+- Se aumentó el grosor del borde derecho y se cambió su color a blanco para destacar el panel sobre el fondo.
+- Se suavizaron los bordes del panel con `border-radius: 24px`.
+- La imagen de perfil predeterminada se muestra más grande y centrada en el panel.
+- Se centralizaron todos los estilos en el archivo `style.css`, eliminando estilos embebidos en los archivos HTML.
+- Se ajustó el texto de la opción de perfil a "Configurar / Ver perfil" para mayor claridad.
+
+Motivación:
+- Mejorar la estética y la usabilidad del panel de usuario.
+- Unificar la experiencia visual en todos los dispositivos y navegadores.
+- Facilitar el mantenimiento del código centralizando los estilos.
+
+Resultado:
+- El panel lateral de usuario es más atractivo, accesible y coherente con la marca.
+- La experiencia de usuario es más intuitiva y profesional.
+- El código es más limpio y fácil de mantener.
+
