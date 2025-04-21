@@ -375,3 +375,19 @@ Resultado:
 
 ---
 
+## [Fecha: 20/04/2025] - Actualización de avances y mejoras generales
+
+- Se consolidó el diseño visual del frontend, asegurando coherencia en los estilos de botones, formularios y paneles en todas las páginas principales.
+- Se mejoró la experiencia de usuario autenticado:
+    - Los botones "Iniciar sesión" y "Registrarse" solo aparecen para usuarios no autenticados.
+    - El nombre del usuario autenticado se muestra correctamente en la página principal.
+    - El botón "Cerrar sesión" limpia el localStorage y recarga la página.
+- Se centralizaron todos los estilos en el archivo `style.css`, eliminando estilos inline y asegurando que los cambios visuales sean fáciles de mantener.
+- Se ajustó el diseño y la lógica del panel lateral de usuario para que solo sea visible cuando el usuario está autenticado y no tape el logo.
+- Se mejoró la lógica de detección de usuario autenticado en el frontend, evitando errores por valores residuales en el localStorage.
+- Se mantuvo la validación de contraseña en backend y API, pero **aún no se implementa el mensaje visual de validación en el formulario de registro**.
+- Se verificó el correcto funcionamiento de la autenticación, registro, cierre de sesión y visualización de roles en el frontend.
+- Se documentaron todos los cambios y buenas prácticas en la bitácora para facilitar el trabajo colaborativo y la futura ampliación del proyecto.
+
+---
+

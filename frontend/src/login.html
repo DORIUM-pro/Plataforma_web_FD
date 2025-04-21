@@ -21,13 +21,16 @@
       <label for="loginPassword">Contraseña</label>
       <input type="password" id="loginPassword" required />
     </div>
-    <button type="submit">Entrar</button>
+    <div style="display: flex; justify-content: center;">
+      <button type="submit" class="btn-login">Entrar</button>
+    </div>
     <div id="loginMensaje" class="aviso"></div>
     <a href="index.html" class="volver">Volver al inicio</a>
     <p class="restablecer-link">
       <a href="restablecer.html">¿Olvidaste tu contraseña?</a>
     </p>
   </form>
+  <div id="mensaje-bienvenida" style="display:none;"></div>
   <script>
     document.getElementById('loginForm').addEventListener('submit', async function(e) {
       e.preventDefault();
@@ -44,21 +47,23 @@
       console.log(datos); // <-- agrega esto para ver la respuesta real
       const mensaje = document.getElementById('loginMensaje');
       if (respuesta.ok) {
-        mensaje.textContent = '¡Login exitoso!';
-        mensaje.className = 'aviso exito';
+        const mensajeBienvenida = document.getElementById('mensaje-bienvenida');
+        mensajeBienvenida.textContent = 'Inicio de sesión exitoso';
+        mensajeBienvenida.style.display = 'block';
+        mensajeBienvenida.className = 'exito'; // Puedes personalizar este estilo en tu CSS
         localStorage.setItem('correo', email);
         localStorage.setItem('nombre', datos.nombre);
         localStorage.setItem('token', datos.token);
         localStorage.setItem('bienvenida', '1');
-        localStorage.setItem('rol', datos.rol); // <-- aquí debe ir el nombre del rol, no el ID
+        localStorage.setItem('rol', datos.rol);
         setTimeout(() => {
           window.location.href = "index.html";
-        }, 1000);
+        }, 1500);
       } else {
         mensaje.textContent = datos.error || 'Error al iniciar sesión';
         mensaje.className = 'aviso error';
+        mensaje.style.display = 'block';
       }
-      mensaje.style.display = 'block';
     });
   </script>
 </body>
