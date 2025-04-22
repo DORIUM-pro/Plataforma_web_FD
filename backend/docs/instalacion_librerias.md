@@ -106,4 +106,6 @@ npm install express sequelize mysql2 dotenv express-validator date-fns
 
 Si tienes dudas con alguna librería específica, revisa el archivo [`librerias_importadas.md`](./librerias_importadas.md) para más detalles de uso y ubicación en el código.
 
+
+
 ---
